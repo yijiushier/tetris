@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class changePage {
+    //change
     public static void ChangePage(JButton button,JFrame nowPage,JFrame aimPage){
         button.addActionListener(new ActionListener() {
             @Override
