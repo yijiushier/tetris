@@ -1,6 +1,9 @@
 import java.awt.Color;
+import java.awt.*;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.BorderFactory;
@@ -21,6 +24,7 @@ public class gamePage extends JPanel {
     private int nextstate;  // nextstate表示方块下一状态
     int x;        //x，y表示这个block的位置，在Newblock中，预设x=4，y=0，即表示方块已开始从画面最上方中间位置下落
     int y;
+    private int score=0;  //score储存得分
     private final int [][]block_0= { //l型方块
             {1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0},
             {1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -154,7 +158,7 @@ public class gamePage extends JPanel {
         if (t)
             x = x + 1;
     }
-    
+
     private void Down() {    //下落操作，判断能否下落
         int[] a = block[type][state];
         boolean t = true;
@@ -170,7 +174,7 @@ public class gamePage extends JPanel {
         if (t)
             y = y + 1;
     }
-    
+
     private void Rotate() {  //旋转操作，判断能否旋转
         int[] a;
         boolean t = true;
@@ -191,8 +195,34 @@ public class gamePage extends JPanel {
             state = state + 1;
         }
     }
-    
-    
+
+    private void deleteLine(){
+        for(int i=this.col-1;i>=0;i--){
+            boolean t=true;
+            for(int j=0;j<this.row;j++){
+                if(data[i][j]==0){
+                    t=false;
+                    break;
+                }
+            }
+            if(t){
+                for(int a=i;a>0;i--){
+                    for(int b=0;b<this.row;b++)
+                        data[a][b]=data[a-1][b];
+                }
+                for(int b=0;b<this.row;b++)
+                    data[0][b]=0;
+            }
+        }
+    }
+
+    private void newData(){  //将data里数据清空，方便开始游戏
+        for (int i=0;i<this.col;i++){
+            for(int j=0;j<this.row;j++)
+                data[i][j]=0;
+        }
+    }
+
 
 
 
@@ -207,18 +237,17 @@ public class gamePage extends JPanel {
         a[1] = this.col * this.BlockHeight;
         return a;
     }
+
+    //加入键盘监听
+    @Override
+    public void KeyPressed(KeyEvent e){
+        switch(e.getKeyCode()){
+            case KeyEvent.VK_DOWN:   Down();//draw;break;
+            case KeyEvent.VK_LEFT:   Left();//draw;break;    
+            case KeyEvent.VK_RIGHT:   Right();//draw;break;
+            case KeyEvent.VK_UP:      Rotate();//drw;break; 
+            default:break;    
+        }
+    }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
