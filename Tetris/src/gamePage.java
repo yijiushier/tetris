@@ -127,13 +127,73 @@ public class gamePage extends JPanel {
 
     private void Left(){ //左移操作，需要判断能否左移
         int []a=block[type][state];
-
+        boolean t=true;
+           for(int k=0;k<a.length;k++) {
+               if (a[k] > 0) {
+                   if (k % 4 + x - 1 < 0 || data[k / 4 + y][k % 4 + x - 1] > 0) {
+                       t = false;
+                       break;
+                   }
+               }
+           }
+           if(t)
+               x=x-1;
     }
 
-    private void Right(){ //右移操作，判断能否右移
-        int []a=block[type][state];
+    private void Right() { //右移操作，判断能否右移
+        int[] a = block[type][state];
+        boolean t = true;
+        for (int k = 0; k < a.length; k++) {
+            if (a[k] > 0) {
+                if (k % 4 + x + 1 > this.row || data[k / 4 + y][k % 4 + x + 1] > 0) {
+                    t = false;
+                    break;
+                }
+            }
+        }
+        if (t)
+            x = x + 1;
     }
     
+    private void Down() {    //下落操作，判断能否下落
+        int[] a = block[type][state];
+        boolean t = true;
+        for (int k = 0; k < a.length; k++) {
+            if (a[k] > 0) {
+                if (k / 4 + y + 1 > this.col || data[k / 4 + y + 1][k % 4 + x] > 0) {
+                    t = false;
+                    break;
+                }
+                ;
+            }
+        }
+        if (t)
+            y = y + 1;
+    }
+    
+    private void Rotate() {  //旋转操作，判断能否旋转
+        int[] a;
+        boolean t = true;
+        if (state == 3) {
+            a = block[type][0];
+        } else {
+            a = block[type][state + 1];
+        }
+        for (int k = 0; k < a.length; k++) {
+            if (a[k] > 0) {
+                if (k % 4 + x > this.row || k % 4 + x < 0 || k / 4 + y > this.col || data[k / 4 + y][k % 4 + x] > 0) {
+                    t = false;
+                    break;
+                }
+            }
+        }
+        if (t) {
+            state = state + 1;
+        }
+    }
+    
+    
+
 
 
 
@@ -148,6 +208,12 @@ public class gamePage extends JPanel {
         return a;
     }
 }
+
+
+
+
+
+
 
 
 
