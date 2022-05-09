@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -11,13 +12,20 @@ public class Home {
         homePage.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         //homePage 设置
-        JPanel homePanel=new JPanel();
+        JPanel homePanel=new JPanel(null);
         homePage.setContentPane(homePanel);
         JButton play=new JButton("Play");
         homePanel.add(play);
+        play.setBounds(112,275,150,45);
         JButton Exit=new JButton("Exit");
         homePanel.add(Exit);
+        Exit.setBounds(112,515,150,45);
 
+        ImageIcon bg=new ImageIcon("src/110.png");
+        JLabel picture=new JLabel(bg);
+        homePanel.add(picture);
+        picture.setBounds(100,100,bg.getIconWidth(),bg.getIconHeight());
+        homePanel.setOpaque(false);
         //退出游戏
         Exit.addActionListener(e -> System.exit(0));
 
@@ -25,6 +33,7 @@ public class Home {
         JLabel Difficulty=new JLabel("Difficulty");
         homePanel.add(Difficulty);
         String[] difficulties=new String[]{"Level 1","Level 2","Level 3","Level 4"};
+        Difficulty.setBounds(112,335,75,45);
         final JComboBox<String> chooseDifficulty= new JComboBox<>(difficulties);
         chooseDifficulty.addItemListener(new ItemListener() {
             @Override
@@ -35,10 +44,12 @@ public class Home {
             }
         });
         homePage.add(chooseDifficulty);
+        chooseDifficulty.setBounds(187,340,75,35);
 
         //点击Ranking List按钮跳转到排行榜界面
         JButton RankingList=new JButton("Ranking List");
         homePage.add(RankingList);
+        RankingList.setBounds(112,395,150,45);
 
         //开始游戏过渡界面
         JFrame ChooseGamePage=new JFrame("ChooseGame");
@@ -47,14 +58,17 @@ public class Home {
         ChooseGamePage.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         //ChooseGame Page 设置
-        JPanel chooseGame=new JPanel();
+        JPanel chooseGame=new JPanel(null);
         ChooseGamePage.setContentPane(chooseGame);
         JButton NewGame=new JButton("New Game");
         chooseGame.add(NewGame);
+        NewGame.setBounds(112,200,150,50);
         JButton GameSaves=new JButton("GameSaves");
         chooseGame.add(GameSaves);
+        GameSaves.setBounds(112,275,150,50);
         JButton BackToHomePageFromChooseGame=new JButton("Back");
         chooseGame.add(BackToHomePageFromChooseGame);
+        BackToHomePageFromChooseGame.setBounds(112,350,150,50);
         changePage.ChangePage(BackToHomePageFromChooseGame,ChooseGamePage,homePage);
 
         //点击play按钮跳转到选择游戏界面
@@ -63,12 +77,14 @@ public class Home {
         //点击GameSavers跳转到存档界面
         JFrame GameSaversPage=new JFrame("Saves");
         GameSaversPage.setSize(400,650);
-        JPanel GameSaverPanel=new JPanel();
+        JPanel GameSaverPanel=new JPanel(null);
         GameSaversPage.setContentPane(GameSaverPanel);
         GameSaversPage.setLocationRelativeTo(null);
         JLabel Savers=new JLabel("历史存档");
         JButton BackToChooseGamePageFromGameSaversPage=new JButton("Back");
         GameSaverPanel.add(Savers);
+        Savers.setBounds(150,100,150,50);
+        BackToChooseGamePageFromGameSaversPage.setBounds(112,500,150,50);
         GameSaverPanel.add(BackToChooseGamePageFromGameSaversPage);
         changePage.ChangePage(GameSaves,ChooseGamePage,GameSaversPage);
         changePage.ChangePage(BackToChooseGamePageFromGameSaversPage,GameSaversPage,ChooseGamePage);
@@ -158,11 +174,13 @@ public class Home {
         rankingLIstPage.setLocationRelativeTo(null);
         rankingLIstPage.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         JLabel rankingList=new JLabel("ranking");
-        JPanel rankingLIstPanel=new JPanel();
+        JPanel rankingLIstPanel=new JPanel(null);
         rankingLIstPage.setContentPane(rankingLIstPanel);
         rankingLIstPanel.add(rankingList);
+        rankingList.setBounds(150,200,150,50);
         JButton BackToHomePageFromRankingListPage=new JButton("Back");
         rankingLIstPanel.add(BackToHomePageFromRankingListPage);
+        BackToHomePageFromRankingListPage.setBounds(112,500,150,50);
         changePage.ChangePage(BackToHomePageFromRankingListPage,rankingLIstPage,homePage);
 
         //RankingList按钮设置
@@ -171,21 +189,24 @@ public class Home {
         //主页选项按钮和选项页面
         JButton Option=new JButton("Option");
         homePanel.add(Option);
+        Option.setBounds(112,455,150,45);
         JFrame OptionPage=new JFrame("Option");
         OptionPage.setSize(400,650);
-        JPanel OptionPanel=new JPanel();
+        JPanel OptionPanel=new JPanel(null);
         OptionPage.setContentPane(OptionPanel);
         OptionPage.setLocationRelativeTo(null);
         changePage.ChangePage(Option,homePage,OptionPage);
         JButton BackToHomePageFromOptionPage=new JButton("Back");
         JButton ConfirmOptionChange=new JButton("Apply");
         OptionPanel.add(ConfirmOptionChange);
+        ConfirmOptionChange.setBounds(90,500,100,50);
         //保存选项更改
 
 
 
 
         OptionPanel.add(BackToHomePageFromOptionPage);
+        BackToHomePageFromOptionPage.setBounds(210,500,100,50);
         changePage.ChangePage(BackToHomePageFromOptionPage,OptionPage,homePage);
 
         //显示窗口
@@ -194,4 +215,3 @@ public class Home {
 
     }
 }
-
