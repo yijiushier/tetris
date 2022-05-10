@@ -1,18 +1,20 @@
 import java.awt.Color;
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.BorderFactory;
+import java.lang.Override;
 
 public class gamePage extends JPanel {
     private static final long abced = 1l;
 
-    private int row = 10;     //设置行数
-    private int col = 20;     //设置列数
+    private int row = 20;     //设置行数
+    private int col = 10;     //设置列数
     private final int BlockLength = 30;  //设置小方块宽度
     private final int BlockHeight = 30;  //设置小方块高度
 
@@ -78,8 +80,8 @@ public class gamePage extends JPanel {
     };
 
     public gamePage() {                  //constructor
-        this.row = 10;
-        this.col = 20;
+        this.row = 20;
+        this.col = 10;
         this.labels = new JLabel[row][col];
         this.setLayout(null);
         this.initialLabel();
@@ -89,7 +91,7 @@ public class gamePage extends JPanel {
         for (int i = 0; i < this.row; i++) {
             for (int j = 0; j < this.col; j++) {
                 JLabel a = new JLabel("", JLabel.CENTER);
-                a.setBounds(i * BlockLength, j * BlockHeight, BlockLength, BlockHeight);//设置小方块边界
+                a.setBounds(j * BlockLength, i * BlockHeight, BlockLength, BlockHeight);//设置小方块边界
                 a.setBorder(BorderFactory.createLineBorder(Color.GRAY)); //设置小方块边框
                 a.setOpaque(true);  //设置小方块颜色为透明
                 this.add(a);        //将小方块信息加入面板
@@ -114,7 +116,27 @@ public class gamePage extends JPanel {
         int x=4;  //x表示方块x坐标，即4✖️4方块左上角x坐标
         int y=0;  //y表示方块y坐标，即4✖️4方块左上角y坐标
 
+        if(!gameOver()){
+            newData();
+            Draw();
+
+
+        }
         //这里写gameover判断条件
+    }
+
+    private boolean gameOver() {   //判断何时游戏结束
+        int[] a = block[type][state];
+        boolean t = true;
+        for (int k = 0; k < a.length; k++) {
+            if (a[k] > 0) {
+                if (data[k / 4 + y][k % 4 + x] > 0) {
+                    t = false;
+                    break;
+                }
+            }
+        }
+        return t;
     }
 
 
@@ -149,7 +171,7 @@ public class gamePage extends JPanel {
         boolean t = true;
         for (int k = 0; k < a.length; k++) {
             if (a[k] > 0) {
-                if (k % 4 + x + 1 > this.row || data[k / 4 + y][k % 4 + x + 1] > 0) {
+                if (k % 4 + x + 1 > this.col || data[k / 4 + y][k % 4 + x + 1] > 0) {
                     t = false;
                     break;
                 }
@@ -164,11 +186,10 @@ public class gamePage extends JPanel {
         boolean t = true;
         for (int k = 0; k < a.length; k++) {
             if (a[k] > 0) {
-                if (k / 4 + y + 1 > this.col || data[k / 4 + y + 1][k % 4 + x] > 0) {
+                if (k / 4 + y + 1 > this.row || data[k / 4 + y + 1][k % 4 + x] > 0) {
                     t = false;
                     break;
                 }
-                ;
             }
         }
         if (t)
@@ -185,7 +206,7 @@ public class gamePage extends JPanel {
         }
         for (int k = 0; k < a.length; k++) {
             if (a[k] > 0) {
-                if (k % 4 + x > this.row || k % 4 + x < 0 || k / 4 + y > this.col || data[k / 4 + y][k % 4 + x] > 0) {
+                if (k % 4 + x > this.col || k % 4 + x < 0 || k / 4 + y > this.row || data[k / 4 + y][k % 4 + x] > 0) {
                     t = false;
                     break;
                 }
@@ -196,10 +217,10 @@ public class gamePage extends JPanel {
         }
     }
 
-    private void deleteLine(){
-        for(int i=this.col-1;i>=0;i--){
+    private void deleteLine(){   //消行操作，判断能否消行
+        for(int i=this.row-1;i>=0;i--){
             boolean t=true;
-            for(int j=0;j<this.row;j++){
+            for(int j=0;j<this.col;j++){
                 if(data[i][j]==0){
                     t=false;
                     break;
@@ -207,21 +228,55 @@ public class gamePage extends JPanel {
             }
             if(t){
                 for(int a=i;a>0;i--){
-                    for(int b=0;b<this.row;b++)
+                    for(int b=0;b<this.col;b++)
                         data[a][b]=data[a-1][b];
                 }
-                for(int b=0;b<this.row;b++)
+                for(int b=0;b<this.col;b++)
                     data[0][b]=0;
+                score+=10;  //消行成功得分➕10
             }
         }
     }
 
     private void newData(){  //将data里数据清空，方便开始游戏
-        for (int i=0;i<this.col;i++){
-            for(int j=0;j<this.row;j++)
+        for (int i=0;i<this.row;i++){
+            for(int j=0;j<this.col;j++)
                 data[i][j]=0;
         }
     }
+
+    private void Draw(){  //画布，搜集block和data上方块信息
+        int[] a=block[type][state];
+        int[][]data1=data;
+        if(gameOver()) {     //判断是否结束，如果没结束，则将block中方块信息放入data1
+            for (int k = 0; k < a.length; k++) {
+                if (a[k] > 0)
+                    data1[k / 4 + y][k % 4 + x] = a[k];
+            }
+        }
+        for(int i=0;i<this.row;i++){
+            for(int j=0;j<this.col;j++){
+                JLabel b=new JLabel("",JLabel.CENTER);
+                b.setBounds(j*this.BlockLength,i*this.BlockHeight,this.BlockLength,this.BlockHeight);
+                b.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+                switch(data1[i][j]){
+                    case 0:b.setOpaque(true);break;
+                    case 1:b.setBackground(Color.CYAN);break;
+                    case 2:b.setBackground(Color.YELLOW);break;
+                    case 3:b.setBackground(Color.RED);break;
+                    case 4:b.setBackground(Color.GREEN);break;
+                    case 5:b.setBackground(Color.BLUE);break;
+                    case 6:b.setBackground(Color.PINK);break;
+                    case 7:b.setBackground(Color.orange);break;
+                    default:break;
+                }
+                this.add(b);
+                labels[i][j]=b;
+            }
+        }
+    }
+
+
 
 
 
@@ -234,16 +289,17 @@ public class gamePage extends JPanel {
         return a;
     }
 
-    //加入键盘监听
-    @Override
-    public void KeyPressed(KeyEvent e){
+
+
+    public void KeyPressed(KeyEvent e){  //加入键盘监听
         switch(e.getKeyCode()){
-            case KeyEvent.VK_DOWN:   Down();//draw;break;
-            case KeyEvent.VK_LEFT:   Left();//draw;break;    
-            case KeyEvent.VK_RIGHT:   Right();//draw;break;
-            case KeyEvent.VK_UP:      Rotate();//drw;break; 
-            default:break;    
+            case KeyEvent.VK_DOWN:   Down();Draw();break;
+            case KeyEvent.VK_LEFT:   Left();Draw();break;
+            case KeyEvent.VK_RIGHT:   Right();Draw();break;
+            case KeyEvent.VK_UP:      Rotate();Draw();break;
+            default:break;
         }
     }
 
 }
+
