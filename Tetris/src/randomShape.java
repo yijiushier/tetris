@@ -51,10 +51,6 @@ public class randomShape {
             block_6
     };
 
-    //构造方法创建随机方块
-    public static int[][] randomShape(){
-
-    }
 }
 
 
