@@ -227,10 +227,6 @@ public class gamePage extends JPanel {
 
 
 
-
-
-
-
     public int[] returnSize(){        //返回JPanel大小，供JFrame使用
         int[] a = new int[2];
         a[0] = this.row * this.BlockLength;
