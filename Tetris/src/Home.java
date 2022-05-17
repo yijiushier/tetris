@@ -9,37 +9,37 @@ import java.awt.event.ItemListener;
 public class Home {
     public static void main(String[] args) {
         //导入按钮图片素材
-        ImageIcon StartButton=new ImageIcon("src/buttons/StartButton.png");
-        ImageIcon StartButtonPressed=new ImageIcon("src/buttons/StartButtonPressed.png");
-        ImageIcon ExitButton=new ImageIcon("src/buttons/ExitButton.png");
-        ImageIcon ExitButtonPressed=new ImageIcon("src/buttons/ExitButtonPressed.png");
-        ImageIcon RankingListButton=new ImageIcon("src/buttons/RankingListButton.png");
-        ImageIcon RankingListButtonPressed=new ImageIcon("src/buttons/RankingListButtonPressed.png");
-        ImageIcon OptionButton=new ImageIcon("src/buttons/OptionButton.png");
-        ImageIcon OptionButtonPressed=new ImageIcon("src/buttons/OptionButtonPressed.png");
-        ImageIcon NewGameButton=new ImageIcon("src/buttons/NewGameButton.png");
-        ImageIcon NewGameButtonPressed=new ImageIcon("src/buttons/NewGameButtonPressed.png");
-        ImageIcon GameSaverButton=new ImageIcon("src/buttons/GameSaverButton.png");
-        ImageIcon GameSaverButtonPressed=new ImageIcon("src/buttons/GameSaverButtonPressed.png");
-        ImageIcon BackButton=new ImageIcon("src/buttons/BackButton.png");
-        ImageIcon BackButtonPressed=new ImageIcon("src/buttons/BackButtonPressed.png");
-        ImageIcon ApplyButton=new ImageIcon("src/buttons/ApplyButton.png");
-        ImageIcon ApplyButtonPressed=new ImageIcon("src/buttons/ApplyButtonPressed.png");
-        ImageIcon BackButtonBig=new ImageIcon("src/buttons/BackButtonBig.png");
-        ImageIcon BackButtonBigPressed=new ImageIcon("src/buttons/BackButtonBigPressed.png");
-        ImageIcon NoButton=new ImageIcon("src/buttons/NoButton.png");
-        ImageIcon YesButton=new ImageIcon("src/buttons/YesButton.png");
-        ImageIcon HomeButton=new ImageIcon("src/buttons/HomeButton.png");
-        ImageIcon PauseButton=new ImageIcon("src/buttons/PauseButton.png");
-        ImageIcon PauseButtonPressed=new ImageIcon("src/buttons/PauseButtonPressed.png");
-        ImageIcon ContinueButton=new ImageIcon("src/buttons/ContinueButton.png");
-        ImageIcon HowToPlayButton=new ImageIcon("src/buttons/HowToPlayButton.png");
-        ImageIcon DifficultyButton=new ImageIcon("src/buttons/DifficultyButton.png");
-        ImageIcon BG=new ImageIcon("src/bg/bg.png");
-        ImageIcon BG1=new ImageIcon("src/bg/bg1.png");
-        ImageIcon ButtonBG=new ImageIcon("src/buttons/ButtonBG.png");
+        ImageIcon StartButton=new ImageIcon("tetris/Tetris/src/buttons/StartButton.png");
+        ImageIcon StartButtonPressed=new ImageIcon("tetris/Tetris/src/buttons/StartButtonPressed.png");
+        ImageIcon ExitButton=new ImageIcon("tetris/Tetris/src/buttons/ExitButton.png");
+        ImageIcon ExitButtonPressed=new ImageIcon("tetris/Tetris/src/buttons/ExitButtonPressed.png");
+        ImageIcon RankingListButton=new ImageIcon("tetris/Tetris/src/buttons/RankingListButton.png");
+        ImageIcon RankingListButtonPressed=new ImageIcon("tetris/Tetris/src/buttons/RankingListButtonPressed.png");
+        ImageIcon OptionButton=new ImageIcon("tetris/Tetris/src/buttons/OptionButton.png");
+        ImageIcon OptionButtonPressed=new ImageIcon("tetris/Tetris/src/buttons/OptionButtonPressed.png");
+        ImageIcon NewGameButton=new ImageIcon("tetris/Tetris/src/buttons/NewGameButton.png");
+        ImageIcon NewGameButtonPressed=new ImageIcon("tetris/Tetris/src/buttons/NewGameButtonPressed.png");
+        ImageIcon GameSaverButton=new ImageIcon("tetris/Tetris/src/buttons/GameSaverButton.png");
+        ImageIcon GameSaverButtonPressed=new ImageIcon("tetris/Tetris/src/buttons/GameSaverButtonPressed.png");
+        ImageIcon BackButton=new ImageIcon("tetris/Tetris/src/buttons/BackButton.png");
+        ImageIcon BackButtonPressed=new ImageIcon("tetris/Tetris/src/buttons/BackButtonPressed.png");
+        ImageIcon ApplyButton=new ImageIcon("tetris/Tetris/src/buttons/ApplyButton.png");
+        ImageIcon ApplyButtonPressed=new ImageIcon("tetris/Tetris/src/buttons/ApplyButtonPressed.png");
+        ImageIcon BackButtonBig=new ImageIcon("tetris/Tetris/src/buttons/BackButtonBig.png");
+        ImageIcon BackButtonBigPressed=new ImageIcon("tetris/Tetris/src/buttons/BackButtonBigPressed.png");
+        ImageIcon NoButton=new ImageIcon("tetris/Tetris/src/buttons/NoButton.png");
+        ImageIcon YesButton=new ImageIcon("tetris/Tetris/src/buttons/YesButton.png");
+        ImageIcon HomeButton=new ImageIcon("tetris/Tetris/src/buttons/HomeButton.png");
+        ImageIcon PauseButton=new ImageIcon("tetris/Tetris/src/buttons/PauseButton.png");
+        ImageIcon PauseButtonPressed=new ImageIcon("tetris/Tetris/src/buttons/PauseButtonPressed.png");
+        ImageIcon ContinueButton=new ImageIcon("tetris/Tetris/src/buttons/ContinueButton.png");
+        ImageIcon HowToPlayButton=new ImageIcon("tetris/Tetris/src/buttons/HowToPlayButton.png");
+        ImageIcon DifficultyButton=new ImageIcon("tetris/Tetris/src/buttons/DifficultyButton.png");
+        ImageIcon BG=new ImageIcon("tetris/Tetris/src/bg/bg.png");
+        ImageIcon BG1=new ImageIcon("tetris/Tetris/src/bg/bg1.png");
+        ImageIcon ButtonBG=new ImageIcon("tetris/Tetris/src/buttons/ButtonBG.png");
         //bgm
-        Music bgm=new Music("src/bgm/bgm.wav");
+        Music bgm=new Music("tetris/Tetris/src/bgm/bgm.wav");
 
 
         //创建游戏主页面
