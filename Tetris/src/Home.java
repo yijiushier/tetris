@@ -1,16 +1,13 @@
 import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 public class Home {
     public static void main(String[] args) {
-        //创建游戏主页面
-        JFrame homePage=new JFrame("HomePage");
-        homePage.setSize(400,650);
-        homePage.setLocationRelativeTo(null);
-        homePage.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        //homePage 设置
         //导入按钮图片素材
         ImageIcon bg=new ImageIcon("src/110.png");
         ImageIcon StartButton=new ImageIcon("src/buttons/StartButton.png");
@@ -29,7 +26,7 @@ public class Home {
         ImageIcon BackButtonPressed=new ImageIcon("src/buttons/BackButtonPressed.png");
         ImageIcon ApplyButton=new ImageIcon("src/buttons/ApplyButton.png");
         ImageIcon ApplyButtonPressed=new ImageIcon("src/buttons/ApplyButtonPressed.png");
-        ImageIcon BackButtonBig=new ImageIcon("src/buttons/BackButtonBig.jpg");
+        ImageIcon BackButtonBig=new ImageIcon("src/buttons/BackButtonBig.png");
         ImageIcon BackButtonBigPressed=new ImageIcon("src/buttons/BackButtonBigPressed.png");
         ImageIcon NoButton=new ImageIcon("src/buttons/NoButton.png");
         ImageIcon YesButton=new ImageIcon("src/buttons/YesButton.png");
@@ -39,9 +36,28 @@ public class Home {
         ImageIcon ContinueButton=new ImageIcon("src/buttons/ContinueButton.png");
         ImageIcon HowToPlayButton=new ImageIcon("src/buttons/HowToPlayButton.png");
         ImageIcon DifficultyButton=new ImageIcon("src/buttons/DifficultyButton.png");
+        ImageIcon BG=new ImageIcon("src/bg/bg.png");
+        ImageIcon BG1=new ImageIcon("src/bg/bg1.png");
+        ImageIcon ButtonBG=new ImageIcon("src/buttons/ButtonBG.png");
+        //bgm
+        Music bgm=new Music("src/bgm/bgm.wav");
 
+
+        //创建游戏主页面
+        JFrame homePage=new JFrame("HomePage");
+        homePage.setSize(400,650);
+        homePage.setLocationRelativeTo(null);
+        homePage.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        //homePage 设置
         JPanel homePanel=new JPanel(null);
         homePage.setContentPane(homePanel);
+
+        //为开始界面添加背景
+        JLabel homePageBG=new JLabel();
+        setBackGround.SetBackGround(homePageBG,homePage,BG,homePanel);
+
+        //play按钮
         JButton play=new JButton();
         homePanel.add(play);
         SetButton.SetButton(play,StartButton,StartButtonPressed);
@@ -76,7 +92,11 @@ public class Home {
             }
         });
         homePage.add(chooseDifficulty);
-        chooseDifficulty.setBounds(210,290,75,30);
+        chooseDifficulty.setBounds(210,290,100,30);
+        Color BGColor=new Color(254,229,163);
+        chooseDifficulty.setBackground(BGColor);
+        chooseDifficulty.setFont(new Font("方正舒体",Font.BOLD,20));
+        chooseDifficulty.setForeground(new Color(52,46,31));
 
         //点击Ranking List按钮跳转到排行榜界面
         JButton RankingList=new JButton();
@@ -93,6 +113,9 @@ public class Home {
         //ChooseGame Page 设置
         JPanel chooseGame=new JPanel(null);
         ChooseGamePage.setContentPane(chooseGame);
+        JLabel ChooseGameBG=new JLabel();
+        setBackGround.SetBackGround(ChooseGameBG,ChooseGamePage,BG1,chooseGame);
+
 
         //New Game按钮
         JButton NewGame=new JButton();
@@ -118,15 +141,20 @@ public class Home {
 
         //点击GameSavers跳转到存档界面
         JFrame GameSaversPage=new JFrame("Saves");
+        GameSaversPage.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         GameSaversPage.setSize(400,650);
         JPanel GameSaverPanel=new JPanel(null);
         GameSaversPage.setContentPane(GameSaverPanel);
         GameSaversPage.setLocationRelativeTo(null);
+        JLabel GameSaversBG=new JLabel();
+        setBackGround.SetBackGround(GameSaversBG,GameSaversPage,BG1,GameSaverPanel);
 
         //存档Label
         JLabel Savers=new JLabel("历史存档");
+        Savers.setFont(new Font("方正舒体",Font.BOLD,30));
+        Savers.setForeground(Color.DARK_GRAY);
         GameSaverPanel.add(Savers);
-        Savers.setBounds(150,100,150,50);
+        Savers.setBounds(125,70,150,50);
 
         //从存档界面返回选择游戏界面的Back按钮
         JButton BackToChooseGamePageFromGameSaversPage=new JButton();
@@ -146,6 +174,13 @@ public class Home {
         GamePage.setContentPane(GamePanel);
         GamePage.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         changePage.ChangePage(NewGame,ChooseGamePage,GamePage);
+        JLabel GamePageBG=new JLabel();
+        setBackGround.SetBackGround(GamePageBG,GamePage,BG1,GamePanel);
+
+        //
+        NewGame.addActionListener(e -> bgm.start(true));
+
+        //bgm.setVolume(7);
 
         //Pause暂停界面设置
         JFrame PausePage=new JFrame("Pause");
@@ -153,6 +188,8 @@ public class Home {
         PausePage.setLocationRelativeTo(null);
         JPanel PausePanel=new JPanel(null);
         PausePage.setContentPane(PausePanel);
+        JLabel PausePageBG=new JLabel();
+        setBackGround.SetBackGround(PausePageBG,PausePage,BG1,PausePanel);
 
         //Pause按钮
         JButton Pause=new JButton();
@@ -170,6 +207,7 @@ public class Home {
 
         //暂停游戏
         pauseAction.PauseAction(Pause,PausePage);
+        Pause.addActionListener(e -> bgm.stop());
 
         //从暂停返回主页面的按钮
         JButton BackToHomePageFromPausePage=new JButton();
@@ -185,6 +223,9 @@ public class Home {
         SetButton.SetButton(ContinuePlay,ContinueButton,ContinueButton);
         ContinuePlay.setBounds(220,175,ContinueButton.getIconWidth(),ContinueButton.getIconHeight());
 
+        ContinuePlay.addActionListener(e -> bgm.continues());
+
+
 
 
         //返回主页面是询问是否存档
@@ -193,6 +234,8 @@ public class Home {
         SaveOrNot.setContentPane(SaveOrNotPanel);
         SaveOrNot.setSize(300,300);
         SaveOrNot.setLocationRelativeTo(null);
+        JLabel SaveOrNotBG=new JLabel();
+        setBackGround.SetBackGround(SaveOrNotBG,SaveOrNot,BG1,SaveOrNotPanel);
 
         //询问是否存档的Label
         JLabel SaveOrNotLabel=new JLabel("Do you want to save your game?");
@@ -250,6 +293,8 @@ public class Home {
         JPanel HowToPlayPanel=new JPanel(null);
         HowToPlayPage.setContentPane(HowToPlayPanel);
         HowToPlayPage.setLocationRelativeTo(null);
+        JLabel HowToPlayBG=new JLabel();
+        setBackGround.SetBackGround(HowToPlayBG,HowToPlayPage,BG1,HowToPlayPanel);
 
         //从暂停界面到帮助界面
         JButton HowToPlay=new JButton();
@@ -278,6 +323,8 @@ public class Home {
         JPanel rankingLIstPanel=new JPanel(null);
         rankingLIstPage.setContentPane(rankingLIstPanel);
         rankingLIstPage.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        JLabel rankingListPageBG=new JLabel();
+        setBackGround.SetBackGround(rankingListPageBG,rankingLIstPage,BG1,rankingLIstPanel);
 
         //排行榜label
         JLabel rankingList=new JLabel("ranking");
@@ -307,6 +354,8 @@ public class Home {
         OptionPage.setContentPane(OptionPanel);
         OptionPage.setLocationRelativeTo(null);
         changePage.ChangePage(Option,homePage,OptionPage);
+        JLabel OptionPageBG=new JLabel();
+        setBackGround.SetBackGround(OptionPageBG,OptionPage,BG1,OptionPanel);
 
         //从选项界面返回Home的Back按钮
         JButton BackToHomePageFromOptionPage=new JButton();
@@ -321,6 +370,10 @@ public class Home {
         SetButton.SetButton(ConfirmOptionChange,ApplyButton,ApplyButtonPressed);
         ConfirmOptionChange.setBounds(35,500,ApplyButton.getIconWidth(),ApplyButton.getIconHeight());
         //保存选项更改
+
+
+
+
 
 
         //显示窗口

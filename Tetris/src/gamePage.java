@@ -1,7 +1,7 @@
 import java.awt.Color;
+import java.awt.*;
 import javax.swing.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -10,13 +10,13 @@ import javax.swing.JLabel;
 import javax.swing.BorderFactory;
 import java.lang.Override;
 
-public class gamePage extends JPanel implements KeyListener {
+public class gamePage extends JPanel {
     private static final long abced = 1l;
 
     private int row = 20;     //设置行数
     private int col = 10;     //设置列数
-    private final int BlockLength = 25;  //设置小方块宽度
-    private final int BlockHeight = 25;  //设置小方块高度
+    private final int BlockLength = 30;  //设置小方块宽度
+    private final int BlockHeight = 30;  //设置小方块高度
 
     private JLabel[][] labels;  //设置labels储存方块信息,用于画布
     private int data [][]=new int[row][col]; //data储存已落下方块信息
@@ -27,7 +27,6 @@ public class gamePage extends JPanel implements KeyListener {
     int x;        //x，y表示这个block的位置，在Newblock中，预设x=4，y=0，即表示方块已开始从画面最上方中间位置下落
     int y;
     private int score=0;  //score储存得分
-    private Timer timer;
     private final int [][]block_0= { //l型方块
             {1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0},
             {1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -86,10 +85,6 @@ public class gamePage extends JPanel implements KeyListener {
         this.labels = new JLabel[row][col];
         this.setLayout(null);
         this.initialLabel();
-        newData();
-        NewBlock();
-        timer=new Timer(1000,new TimerListener());
-        timer.start();
     }
 
     private void initialLabel() {        //先将每个小方块填充为白色
@@ -124,6 +119,8 @@ public class gamePage extends JPanel implements KeyListener {
         if(!gameOver()){
             newData();
             Draw();
+
+
         }
         //这里写gameover判断条件
     }
@@ -157,16 +154,16 @@ public class gamePage extends JPanel implements KeyListener {
     private void Left(){ //左移操作，需要判断能否左移
         int []a=block[type][state];
         boolean t=true;
-        for(int k=0;k<a.length;k++) {
-            if (a[k] > 0) {
-                if (k % 4 + x - 1 < 0 || data[k / 4 + y][k % 4 + x - 1] > 0) {
-                    t = false;
-                    break;
-                }
-            }
-        }
-        if(t)
-            x=x-1;
+           for(int k=0;k<a.length;k++) {
+               if (a[k] > 0) {
+                   if (k % 4 + x - 1 < 0 || data[k / 4 + y][k % 4 + x - 1] > 0) {
+                       t = false;
+                       break;
+                   }
+               }
+           }
+           if(t)
+               x=x-1;
     }
 
     private void Right() { //右移操作，判断能否右移
@@ -279,11 +276,6 @@ public class gamePage extends JPanel implements KeyListener {
         }
     }
 
-    private void start(){
-
-    }
-
-
 
 
 
@@ -297,24 +289,9 @@ public class gamePage extends JPanel implements KeyListener {
         return a;
     }
 
-    class TimerListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent args0) {
-            int y1 = y;
-            Down();
-            if (y1 == y) {
-                add();
-                deleteLine();
-                NewBlock();
-            }
-            Draw();
-        }
-    }
 
 
-
-    @Override   //加入键盘监听
-    public void keyPressed(KeyEvent e){  //加入键盘监听
+    public void KeyPressed(KeyEvent e){  //加入键盘监听
         switch(e.getKeyCode()){
             case KeyEvent.VK_DOWN:   Down();Draw();break;
             case KeyEvent.VK_LEFT:   Left();Draw();break;
@@ -322,15 +299,6 @@ public class gamePage extends JPanel implements KeyListener {
             case KeyEvent.VK_UP:      Rotate();Draw();break;
             default:break;
         }
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-    @Override
-    public void keyReleased(KeyEvent e) {
-
     }
 
 }
