@@ -9,7 +9,6 @@ import java.awt.event.ItemListener;
 public class Home {
     public static void main(String[] args) {
         //导入按钮图片素材
-        ImageIcon bg=new ImageIcon("src/110.png");
         ImageIcon StartButton=new ImageIcon("src/buttons/StartButton.png");
         ImageIcon StartButtonPressed=new ImageIcon("src/buttons/StartButtonPressed.png");
         ImageIcon ExitButton=new ImageIcon("src/buttons/ExitButton.png");
@@ -69,10 +68,6 @@ public class Home {
         SetButton.SetButton(Exit,ExitButton,ExitButtonPressed);
         Exit.setBounds(100,500,StartButton.getIconWidth(),StartButton.getIconHeight());
 
-        JLabel picture=new JLabel(bg);
-        homePanel.add(picture);
-        picture.setBounds(100,100,bg.getIconWidth(),bg.getIconHeight());
-        homePanel.setOpaque(false);
         //退出游戏
         Exit.addActionListener(e -> System.exit(0));
 
