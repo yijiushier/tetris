@@ -12,17 +12,17 @@ import javax.swing.BorderFactory;
 import java.lang.Override;
 
 public class gamePage extends JPanel implements KeyListener {
-    private static final long abced = 1l;
 
-    private int row = 10;     //设置行数
-    private int col = 20;     //设置列数
+
+    private final int row = 10;     //设置行数
+    private final int col = 20;     //设置列数
     private final int BlockLength = 25;  //设置小方块宽度
     private final int BlockHeight = 25;  //设置小方块高度
 
 
 
-    private int data [][]=new int[row][col]; //data储存已落下方块信息
-    private int type=-1;  ;//  type表示方块类型，范围从0到6，一开始设type=-1表示新游戏，即无方块落下
+    private int [][]data =new int[row][col]; //data储存已落下方块信息
+    private int type=-1;  //  type表示方块类型，范围从0到6，一开始设type=-1表示新游戏，即无方块落下
     private int state  ;// state表示方块旋转状态，范围从0到3
     private int nexttype;  //nexttype表示下一方块类型
     private int nextstate;  // nextstate表示方块下一状态
@@ -83,8 +83,9 @@ public class gamePage extends JPanel implements KeyListener {
     };
 
     public gamePage() {                  //constructor
-        NewBlock();
+
         newData();
+
 
         timer=new Timer(1000,new TimerListener() );
         timer.start();
@@ -105,8 +106,8 @@ public class gamePage extends JPanel implements KeyListener {
             nexttype = (int) ((500* Math.random()%7)); //随机设定下一方块类型
             nextstate = (int) ((500 * Math.random())%4);//随机设定下一方块state
         }
-        int x=4;  //x表示方块x坐标，即4✖️4方块左上角x坐标
-        int y=0;  //y表示方块y坐标，即4✖️4方块左上角y坐标
+         x=4;  //x表示方块x坐标，即4✖️4方块左上角x坐标
+         y=0;  //y表示方块y坐标，即4✖️4方块左上角y坐标
 
         if(!gameOver()){
             newData();
@@ -130,14 +131,11 @@ public class gamePage extends JPanel implements KeyListener {
 
 
     private void add() {    //add表示将block方块坐标信息加入data中
-        int[] a = block[type][state];    //将block内信息导入a
-        for (int i = 0; i < this.row; i++) {
-            for (int j = 0; j < this.col; j++) {
-                if (x<= i && i <= x + 3 && y <= j && j <= y + 3) {//判断条件是i，j坐标是否包含在block内
-                    data[i][j] = a[(j - y) * 4 + i - x]; //如果在，则将block内信息导入data
-                }
-            }
+        int[] a = block[type][state];//将block内信息导入a
+        for(int k=0;k<a.length;k++){
+            if(a[k]>0) data[k % 4 + x][k / 4 + y] = a[k];
         }
+
     }
 
     private void Left(){ //左移操作，需要判断能否左移
@@ -171,18 +169,19 @@ public class gamePage extends JPanel implements KeyListener {
     }
 
     private void Down() {    //下落操作，判断能否下落
-        int[] a = block[type][state];
+
         boolean t = true;
-        for (int k = 0; k < a.length; k++) {
-            if (a[k] > 0) {
+        for (int k = 0; k < 16; k++) {
+            if (block[type][state][k] > 0) {
                 if (k / 4 + y + 1 > this.col-1 || data[k % 4 + x][k / 4 + y+1] > 0) {
                     t = false;
                     break;
                 }
             }
         }
-        if (t)
-            y = y + 1;
+        if (t) {
+             y++;
+        }
     }
 
     private void Rotate() {  //旋转操作，判断能否旋转
@@ -239,42 +238,67 @@ public class gamePage extends JPanel implements KeyListener {
     }
 
 
-    public void paint(Graphics b){
-        super.paint((b));//清屏；
+    public void paint(Graphics g){
+        super.paint((g));//清屏；
         int[]a=block[type][state];
-        int[][]data1=data;
-        if(gameOver()){
-            for (int k = 0; k < a.length; k++) {
-                if (a[k] > 0)
-                    data1[k % 4 + x][k /4 + y] = a[k];
-            }
-        }
         for(int i=0;i<this.row;i++){
             for(int j=0;j<this.col;j++){
 
-                    switch(data1[i][j]){
-                        case 1:b.setColor(Color.CYAN);break;
-                        case 2:b.setColor(Color.YELLOW);break;
-                        case 3:b.setColor(Color.RED);break;
-                        case 4:b.setColor(Color.GREEN);break;
-                        case 5:b.setColor(Color.BLUE);break;
-                        case 6:b.setColor(Color.PINK);break;
-                        case 7:b.setColor(Color.orange);break;
-                        default:b.setColor(Color.GRAY);break;
+                    switch(data[i][j]){
+                        case 1:g.setColor(Color.CYAN);break;
+                        case 2:g.setColor(Color.YELLOW);break;
+                        case 3:g.setColor(Color.RED);break;
+                        case 4:g.setColor(Color.GREEN);break;
+                        case 5:g.setColor(Color.BLUE);break;
+                        case 6:g.setColor(Color.PINK);break;
+                        case 7:g.setColor(Color.orange);break;
+                        default:g.setColor(Color.GRAY);break;
                     }
-                    b.fillRect(i*this.BlockHeight,j*this.BlockHeight,BlockLength,BlockHeight);
-                    b.setColor(Color.GRAY);
-                    b.drawRect(i*this.BlockHeight,j*this.BlockHeight,BlockLength,BlockHeight);
+                    g.fillRect(i*this.BlockHeight,j*this.BlockHeight,BlockLength,BlockHeight);
+                    g.setColor(Color.GRAY);
+                    g.drawRect(i*this.BlockHeight,j*this.BlockHeight,BlockLength,BlockHeight);
 
             }
         }
-
+        for(int k=0;k<a.length;k++) {
+            if (a[k] > 0) {
+                switch (a[k]) {
+                    case 1:
+                        g.setColor(Color.CYAN);
+                        break;
+                    case 2:
+                        g.setColor(Color.YELLOW);
+                        break;
+                    case 3:
+                        g.setColor(Color.RED);
+                        break;
+                    case 4:
+                        g.setColor(Color.GREEN);
+                        break;
+                    case 5:
+                        g.setColor(Color.BLUE);
+                        break;
+                    case 6:
+                        g.setColor(Color.PINK);
+                        break;
+                    case 7:
+                        g.setColor(Color.orange);
+                        break;
+                    default:
+                        g.setColor(Color.GRAY);
+                        break;
+                }
+                g.fillRect((k % 4 + x) * this.BlockHeight, (k / 4 + y) * this.BlockHeight, BlockLength, BlockHeight);
+                g.setColor(Color.GRAY);
+                g.drawRect((k % 4 + x) * this.BlockHeight, (k / 4 + y) * this.BlockHeight, BlockLength, BlockHeight);
+            }
+        }
     }
 
     public void startgame(){
         newData();
         NewBlock();
-        timer.start();
+
     }
     public void pause(){
         timer.stop();
@@ -300,14 +324,16 @@ public class gamePage extends JPanel implements KeyListener {
     class TimerListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent args0) {
-            int y1 = y;
-            Down();
-            if (y1 ==y) {
-                add();
-                deleteLine();
-                NewBlock();
+            {
+               int y1=y;
+                Down();
+                if(y1==y){
+                    add();
+                    deleteLine();
+                    NewBlock();
+                }
+                repaint();
             }
-            repaint();
         }
     }
 
