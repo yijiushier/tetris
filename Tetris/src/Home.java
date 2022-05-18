@@ -1,10 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 
 public class Home {
     public static void main(String[] args) {
@@ -168,6 +165,7 @@ public class Home {
         GamePage.setSize(400,650);
         GamePage.setLocationRelativeTo(null);
         GamePage.setContentPane(GamePanel);
+        GamePanel.setLayout(null);
         GamePage.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         changePage.ChangePage(NewGame,ChooseGamePage,GamePage);
         JLabel GamePageBG=new JLabel();
@@ -180,6 +178,8 @@ public class Home {
                 //bgm.start(true);
                 GamePanel.startgame();
                 GamePage.addKeyListener(GamePanel);
+
+
             }
         });
 
@@ -196,9 +196,11 @@ public class Home {
 
         //Pause按钮
         JButton Pause=new JButton();
-        GamePanel.add(Pause);
+        GamePage.add(Pause);
+        Pause.setFocusable(false);
         SetButton.SetButton(Pause,PauseButton,PauseButtonPressed);
         Pause.setBounds(218,480,PauseButton.getIconWidth(),PauseButton.getIconHeight());
+        GamePage.requestFocus();
 
         //显示下一个方块的label
 
@@ -209,8 +211,15 @@ public class Home {
 
 
         //暂停游戏
-        pauseAction.PauseAction(Pause,PausePage);
-        Pause.addActionListener(e -> bgm.stop());
+        Pause.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                bgm.stop();
+                GamePanel.pause();
+                PausePage.setVisible(true);
+
+            }
+        });
 
         //从暂停返回主页面的按钮
         JButton BackToHomePageFromPausePage=new JButton();
@@ -221,7 +230,13 @@ public class Home {
 
         //继续游戏按钮
         JButton ContinuePlay=new JButton();
-        ContinuePlay.addActionListener(e -> PausePage.setVisible(false));
+        ContinuePlay.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PausePage.setVisible(false);
+                GamePanel.ContinueGame();
+            }
+        });
         PausePanel.add(ContinuePlay);
         SetButton.SetButton(ContinuePlay,ContinueButton,ContinueButton);
         ContinuePlay.setBounds(220,175,ContinueButton.getIconWidth(),ContinueButton.getIconHeight());

@@ -1,14 +1,11 @@
 import java.awt.Color;
 import javax.swing.*;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import javax.swing.JPanel;
 import java.lang.Override;
 
-public class gamePage extends JPanel implements KeyListener {
+public class gamePage extends JPanel implements KeyListener  {
 
 
     private final int row = 10;     //设置行数
@@ -80,7 +77,7 @@ public class gamePage extends JPanel implements KeyListener {
     };
 
     public gamePage() {                  //constructor
-        newData();
+
     }
 
 
@@ -244,7 +241,7 @@ public class gamePage extends JPanel implements KeyListener {
                         case 5:g.setColor(Color.BLUE);break;
                         case 6:g.setColor(Color.PINK);break;
                         case 7:g.setColor(Color.orange);break;
-                        default:g.setColor(Color.GRAY);break;
+                        default:g.setColor(new Color(254,229,163));break;
                     }
                     g.fillRect(i*this.BlockHeight,j*this.BlockHeight,BlockLength,BlockHeight);
                     g.setColor(Color.GRAY);
@@ -313,6 +310,8 @@ public class gamePage extends JPanel implements KeyListener {
         a[1] = this.col * this.BlockHeight;
         return a;
     }
+
+
 
     class TimerListener implements ActionListener {
         @Override
