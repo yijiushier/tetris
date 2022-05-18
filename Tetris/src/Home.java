@@ -196,7 +196,7 @@ public class Home {
 
         //Pause按钮
         JButton Pause=new JButton();
-        //GamePanel.add(Pause);
+        GamePanel.add(Pause);
         SetButton.SetButton(Pause,PauseButton,PauseButtonPressed);
         Pause.setBounds(218,480,PauseButton.getIconWidth(),PauseButton.getIconHeight());
 
@@ -273,7 +273,7 @@ public class Home {
         //保存并回到开始界面
         DoSave.addActionListener(e -> {
             SaveOrNot.setVisible(false);
-            //GamePage.setVisible(false);
+            GamePage.setVisible(false);
             homePage.setVisible(true);
             //保存数据操作
 
@@ -283,7 +283,7 @@ public class Home {
 
         NotSave.addActionListener(e -> {
             SaveOrNot.setVisible(false);
-            //GamePage.setVisible(false);
+            GamePage.setVisible(false);
             homePage.setVisible(true);
 
 
