@@ -185,16 +185,18 @@ public class gamePage extends JPanel implements KeyListener {
     }
 
     private void Rotate() {  //旋转操作，判断能否旋转
-        int[] a;
+
         boolean t = true;
         if (state == 3) {
-            a = block[type][0];
-        } else {
-            a = block[type][state + 1];
+            state=0;
         }
-        for (int k = 0; k < a.length; k++) {
-            if (a[k] > 0) {
-                if (k % 4 + x > this.row-1 || k % 4 + x < 0 || k / 4 + y > this.col-1 || data[k % 4 + x][k / 4 + y] > 0) {
+        else {
+            state=state+1;
+        }
+        for (int k = 0; k <16; k++) {
+            if (block[type][state][k] > 0) {
+                if (k % 4 + x > this.row - 1 || k % 4 + x < 0 || k / 4 + y > this.col - 1
+                        ||k/4+y<0|| data[k % 4 + x][k / 4 + y] > 0) {
                     t = false;
                     break;
                 }
@@ -219,12 +221,10 @@ public class gamePage extends JPanel implements KeyListener {
                 }
             }
             if(t){
-                for(int a=i;a>0;i--){
+                for(int a=i;a>0;a--){
                     for(int b=0;b<this.row;b++)
                         data[b][a]=data[b][a-1];
                 }
-                for(int b=0;b<this.row;b++)
-                    data[b][0]=0;
                 score+=10;  //消行成功得分➕10
             }
         }
@@ -298,7 +298,6 @@ public class gamePage extends JPanel implements KeyListener {
     public void startgame(){
         newData();
         NewBlock();
-
     }
     public void pause(){
         timer.stop();
@@ -362,5 +361,6 @@ public class gamePage extends JPanel implements KeyListener {
 
 
 }
+
 
 
