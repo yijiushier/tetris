@@ -1,0 +1,23 @@
+import javax.swing.*;
+import java.awt.*;
+
+public class game extends JFrame  {
+    gamePage page=new gamePage();
+    JFrame frame=new JFrame();
+
+
+    public game(){
+        page.startgame();
+        addKeyListener(page);
+        this.getContentPane().add(page);
+        frame.setTitle(" ");
+        setSize(400, 650);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        setVisible(true);
+
+    }
+    public static void main(String args[]){
+        new game();
+    }
+}
