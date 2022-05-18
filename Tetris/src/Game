@@ -21,3 +21,12 @@ public class game extends JFrame  {
         new game();
     }
 }
+JFrame GamePage=new JFrame("Game Running");
+        gamePage GamePanel=new gamePage();
+        GamePage.setSize(400,650);
+        GamePage.setLocationRelativeTo(null);
+        GamePage.getContentPane().add(GamePanel);
+        GamePage.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        changePage.ChangePage(NewGame,ChooseGamePage,GamePage);
+        JLabel GamePageBG=new JLabel();
+        setBackGround.SetBackGround(GamePageBG,GamePage,BG1,GamePanel);

@@ -5,10 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.BorderFactory;
 import java.lang.Override;
 
 public class gamePage extends JPanel implements KeyListener {
@@ -83,12 +80,7 @@ public class gamePage extends JPanel implements KeyListener {
     };
 
     public gamePage() {                  //constructor
-
         newData();
-
-
-        timer=new Timer(1000,new TimerListener() );
-        timer.start();
     }
 
 
@@ -298,6 +290,8 @@ public class gamePage extends JPanel implements KeyListener {
     public void startgame(){
         newData();
         NewBlock();
+        timer=new Timer(1000,new TimerListener() );
+        timer.start();
     }
     public void pause(){
         timer.stop();

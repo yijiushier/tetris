@@ -118,6 +118,7 @@ public class Home {
         SetButton.SetButton(NewGame,NewGameButton,NewGameButtonPressed);
         NewGame.setBounds(100,200,NewGameButton.getIconWidth(),NewGameButton.getIconHeight());
 
+
         //GameSaver按钮
         JButton GameSaves=new JButton();
         chooseGame.add(GameSaves);
@@ -163,7 +164,7 @@ public class Home {
 
         //点击New Game按钮开始新游戏
         JFrame GamePage=new JFrame("Game Running");
-        JPanel GamePanel=new JPanel(null);
+        gamePage GamePanel=new gamePage();
         GamePage.setSize(400,650);
         GamePage.setLocationRelativeTo(null);
         GamePage.setContentPane(GamePanel);
@@ -173,7 +174,14 @@ public class Home {
         setBackGround.SetBackGround(GamePageBG,GamePage,BG1,GamePanel);
 
         //
-        NewGame.addActionListener(e -> bgm.start(true));
+        NewGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //bgm.start(true);
+                GamePanel.startgame();
+                GamePage.addKeyListener(GamePanel);
+            }
+        });
 
         //bgm.setVolume(7);
 
@@ -188,7 +196,7 @@ public class Home {
 
         //Pause按钮
         JButton Pause=new JButton();
-        GamePanel.add(Pause);
+        //GamePanel.add(Pause);
         SetButton.SetButton(Pause,PauseButton,PauseButtonPressed);
         Pause.setBounds(218,480,PauseButton.getIconWidth(),PauseButton.getIconHeight());
 
@@ -265,7 +273,7 @@ public class Home {
         //保存并回到开始界面
         DoSave.addActionListener(e -> {
             SaveOrNot.setVisible(false);
-            GamePage.setVisible(false);
+            //GamePage.setVisible(false);
             homePage.setVisible(true);
             //保存数据操作
 
@@ -275,7 +283,7 @@ public class Home {
 
         NotSave.addActionListener(e -> {
             SaveOrNot.setVisible(false);
-            GamePage.setVisible(false);
+            //GamePage.setVisible(false);
             homePage.setVisible(true);
 
 
