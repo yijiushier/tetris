@@ -34,10 +34,9 @@ public class Home {
         ImageIcon DifficultyButton=new ImageIcon("Tetris/src/buttons/DifficultyButton.png");
         ImageIcon BG=new ImageIcon("Tetris/src/bg/bg.png");
         ImageIcon BG1=new ImageIcon("Tetris/src/bg/bg1.png");
-        ImageIcon ButtonBG=new ImageIcon("Tetris/src/buttons/ButtonBG.png");
+        ImageIcon PlayAgainButton=new ImageIcon("Tetris/src/buttons/PlayAgainButton.png");
         //bgm
         Music bgm=new Music("Tetris/src/bgm/bgm.wav");
-
 
         //创建游戏主页面
         JFrame homePage=new JFrame("HomePage");
@@ -149,7 +148,7 @@ public class Home {
         BackToChooseGamePageFromGameSaversPage.setBounds(100,500,BackButtonBig.getIconWidth(),BackButtonBig.getIconHeight());
 
         //changePage操作
-        changePage.ChangePage(GameSaves,ChooseGamePage,GameSaversPage);
+        //changePage.ChangePage(GameSaves,ChooseGamePage,GameSaversPage);
         changePage.ChangePage(BackToChooseGamePageFromGameSaversPage,GameSaversPage,ChooseGamePage);
 
         //点击New Game按钮开始新游戏
@@ -164,7 +163,7 @@ public class Home {
         JLabel GamePageBG=new JLabel();
         setBackGround.SetBackGround(GamePageBG,GamePage,BG1,GamePanel);
 
-
+        //修改游戏难度
         chooseDifficulty.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -182,13 +181,14 @@ public class Home {
             }
         });
 
-        //
+        //开始游戏
         NewGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //bgm.start(true);
-                GamePanel.startgame();
+                GamePanel.startGame();
                 GamePage.addKeyListener(GamePanel);
+
 
 
             }
@@ -213,11 +213,12 @@ public class Home {
         Pause.setBounds(218,480,PauseButton.getIconWidth(),PauseButton.getIconHeight());
         GamePage.requestFocus();
 
-        //显示下一个方块的label
-
-
-
-        //显示score的label
+        //暂停界面展示分数
+        JLabel GameRunningShowingScore=new JLabel();
+        PausePanel.add(GameRunningShowingScore);
+        GameRunningShowingScore.setBounds(65,0,250,150);
+        GameRunningShowingScore.setFont(new Font("方正舒体", Font.BOLD, 45));
+        GameRunningShowingScore.setForeground(Color.darkGray);
 
 
 
@@ -255,6 +256,58 @@ public class Home {
 
         ContinuePlay.addActionListener(e -> bgm.continues());
 
+        //结束游戏后界面
+        JFrame GameOverFrame=new JFrame("Game over");
+        GameOverFrame.setAlwaysOnTop(!GameOverFrame.isAlwaysOnTop());
+        GameOverFrame.setSize(300,300);
+        GameOverFrame.setLocationRelativeTo(null);
+        JPanel GameOverPanel=new JPanel(null);
+        GameOverFrame.setContentPane(GameOverPanel);
+
+        //添加返回主页的按钮
+        //添加再玩一次的按钮
+        JButton BackToHomeFromGameOverFrame=new JButton(HomeButton);
+        JButton PlayAgain=new JButton();
+        GameOverPanel.add(BackToHomeFromGameOverFrame);
+        GameOverPanel.add(PlayAgain);
+        BackToHomeFromGameOverFrame.setBounds(50,150,HomeButton.getIconWidth(),HomeButton.getIconHeight());
+        PlayAgain.setBounds(150,150,PlayAgainButton.getIconWidth(),PlayAgainButton.getIconHeight());
+
+        //结束游戏后展示分数
+        JLabel GameOverShowingScore=new JLabel();
+        GameOverShowingScore.setBounds(65,0,250,150);
+        GameOverPanel.add(GameOverShowingScore);
+        GameOverShowingScore.setFont(new Font("方正舒体", Font.BOLD, 45));
+        GameOverShowingScore.setForeground(Color.darkGray);
+        JLabel GameOverBG=new JLabel();
+        setBackGround.SetBackGround(GameOverBG,GameOverFrame,BG1,GameOverPanel);
+        SetButton.SetButton(BackToHomeFromGameOverFrame,HomeButton,HomeButton);
+        SetButton.SetButton(PlayAgain,PlayAgainButton,PlayAgainButton);
+
+        //结束游戏后返回主页面的buttonListener
+        BackToHomeFromGameOverFrame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GameOverFrame.dispose();
+                GamePage.dispose();
+                homePage.setVisible(true);
+                GamePanel.resetGameRunning();
+                GamePanel.resetScore();
+
+            }
+        });
+
+        //再玩一次的buttonListener
+        PlayAgain.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GameOverFrame.dispose();
+                GamePanel.resetGameRunning();
+                GamePanel.startGame();
+                GamePanel.resetScore();
+            }
+        });
+
 
 
 
@@ -283,6 +336,14 @@ public class Home {
         SaveOrNotPanel.add(DoSave);
         SetButton.SetButton(DoSave,YesButton,YesButton);
         DoSave.setBounds(25,50,YesButton.getIconWidth(),YesButton.getIconHeight());
+        DoSave.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GamePanel.setStoredData();
+                GamePanel.saveDataToFile("123");
+
+            }
+        });
 
         //No按钮
         JButton NotSave=new JButton();
@@ -311,8 +372,8 @@ public class Home {
 
         //保存并回到开始界面
         DoSave.addActionListener(e -> {
-            SaveOrNot.setVisible(false);
-            GamePage.setVisible(false);
+            SaveOrNot.dispose();
+            GamePage.dispose();
             homePage.setVisible(true);
             //保存数据操作
 
@@ -321,8 +382,8 @@ public class Home {
         });
 
         NotSave.addActionListener(e -> {
-            SaveOrNot.setVisible(false);
-            GamePage.setVisible(false);
+            SaveOrNot.dispose();
+            GamePage.dispose();
             homePage.setVisible(true);
 
 
@@ -331,7 +392,7 @@ public class Home {
 
         //HowToPlay界面
         JFrame HowToPlayPage=new JFrame("How To Play");
-        HowToPlayPage.setSize(200,325);
+        HowToPlayPage.setSize(400,650);
         JPanel HowToPlayPanel=new JPanel(null);
         HowToPlayPage.setContentPane(HowToPlayPanel);
         HowToPlayPage.setLocationRelativeTo(null);
@@ -346,15 +407,16 @@ public class Home {
         changePage.ChangePage(HowToPlay,PausePage,HowToPlayPage);
 
         //帮助label
-        JLabel HowToPlayLabel=new JLabel("爱咋玩咋玩");
+        JLabel HowToPlayLabel=new JLabel("<html><body><p align=\"center\">由小方块组成的不同形状的板块会陆续从屏幕上方落下来，请您通过调整板块的位置和方向，使它们在屏幕底部拼出完整的一条或几条。<br/> 这些完整的横条会随即消失，给新落下来的板块腾出空间，与此同时，您会得到分数奖励。<br/>没有被消除掉的方块不断堆积起来，一旦堆到屏幕顶端，游戏就会结束。</body></html>");
         HowToPlayPanel.add(HowToPlayLabel);
-        HowToPlayLabel.setBounds(40,10,100,100);
+        HowToPlayLabel.setFont(new Font("楷体", Font.BOLD, 20));
+        HowToPlayLabel.setBounds(75,30,250,400);
 
         //从帮助界面返回暂停界面
         JButton BackToPausePageFromHowToPLayPage=new JButton();
         HowToPlayPanel.add(BackToPausePageFromHowToPLayPage);
-        SetButton.SetButton(BackToPausePageFromHowToPLayPage,BackButton,BackButtonPressed);
-        BackToPausePageFromHowToPLayPage.setBounds(7,200,BackButton.getIconWidth(),BackButton.getIconHeight());
+        SetButton.SetButton(BackToPausePageFromHowToPLayPage,BackButtonBig,BackButtonBigPressed);
+        BackToPausePageFromHowToPLayPage.setBounds(100,500,BackButton.getIconWidth(),BackButton.getIconHeight());
         changePage.ChangePage(BackToPausePageFromHowToPLayPage,HowToPlayPage,PausePage);
 
 
@@ -414,6 +476,33 @@ public class Home {
         //保存选项更改
 
 
+        //该timer实现score的动态变化以及实现游戏结束时弹出游戏结束界面
+        Timer checkGameOver=new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GameRunningShowingScore.setText("Score:"+GamePanel.getScore());
+                if (!GamePanel.isGameRunning()){
+                    GameOverFrame.setVisible(true);
+                    GameOverShowingScore.setText("Score:"+GamePanel.getScore());
+                }
+            }
+        });
+        NewGame.addActionListener(e -> checkGameOver.start());
+
+
+        GameSaves.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String loadData=GamePanel.getDataFromFile("123");
+                GamePanel.setData(loadData);
+                GamePage.setVisible(true);
+                ChooseGamePage.dispose();
+
+                GamePanel.loadGame();
+                GamePage.addKeyListener(GamePanel);
+
+                }
+        });
 
 
 
