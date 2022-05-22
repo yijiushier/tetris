@@ -21,9 +21,9 @@ public class gamePage extends JPanel implements KeyListener  {
     private int [][]data =new int[row][col]; //data储存已落下方块信息
     private int type=-1;  //  type表示方块类型，范围从0到6，一开始设type=-1表示新游戏，即无方块落下
     private int state  ;// state表示方块旋转状态，范围从0到3
-    private int nexttype;  //nexttype表示下一方块类型
-    private int nextstate;  // nextstate表示方块下一状态
-    int x;        //x，y表示这个block的位置，在Newblock中，预设x=4，y=0，即表示方块已开始从画面最上方中间位置下落
+    private int nextType;  //nextType表示下一方块类型
+    private int nextState;  // nextState表示方块下一状态
+    int x;        //x，y表示这个block的位置，在NewBlock中，预设x=4，y=0，即表示方块已开始从画面最上方中间位置下落
     int y;
     private int score=0;  //score储存得分
     private Timer timer;
@@ -94,19 +94,19 @@ public class gamePage extends JPanel implements KeyListener  {
 
 
     private void NewBlock(){   //产生新方块
+        //随机设定下一方块state
+        //随机设定下一方块类型
         if(type==-1) {  //当type=-1时表示当前没有方块下落，所以要初始化一个方块，并且预设下一方块的type和state
             type = (int) ((500 * Math.random()) % 7);  //随机产生方块类型
             state = (int) ((500 * Math.random()%4));  //随机产生方块state
-            nexttype = (int) ((500 * Math.random()%7));  //随机设定下一方块类型
-            nextstate = (int) ((500 * Math.random()%4));  //随机设定下一方块state
         }
         else {      //此时游戏已经开始
-            type = nexttype;  //将预设方块类型赋予当前方块
-            state = nextstate; //将预设方块state赋予当前方块
-            nexttype = (int) ((500* Math.random()%7)); //随机设定下一方块类型
-            nextstate = (int) ((500 * Math.random())%4);//随机设定下一方块state
+            type = nextType;  //将预设方块类型赋予当前方块
+            state = nextState; //将预设方块state赋予当前方块
         }
-         x=4;  //x表示方块x坐标，即4✖️4方块左上角x坐标
+        nextType = (int) ((500 * Math.random()%7));  //随机设定下一方块类型
+        nextState = (int) ((500 * Math.random()%4));  //随机设定下一方块state
+        x=4;  //x表示方块x坐标，即4✖️4方块左上角x坐标
          y=0;  //y表示方块y坐标，即4✖️4方块左上角y坐标
 
         if(!gameOver()){
@@ -298,9 +298,9 @@ public boolean isGameRunning(){
                 g.drawRect((k % 4 + x) * this.BlockHeight, (k / 4 + y) * this.BlockHeight, BlockLength, BlockHeight);
             }
         }
-        for(int c=0;c<block[nexttype][nextstate].length;c++){
-            if(block[nexttype][nextstate][c]>0){
-                switch (block[nexttype][nextstate][c]) {
+        for(int c=0;c<block[nextType][nextState].length;c++){
+            if(block[nextType][nextState][c]>0){
+                switch (block[nextType][nextState][c]) {
                     case 1:
                         g.setColor(Color.CYAN);
                         break;
@@ -337,7 +337,7 @@ public boolean isGameRunning(){
         g.drawString("下一方块",260,10*BlockHeight);
     }
 
-    public void startgame(){
+    public void startGame(){
         newData();
         NewBlock();
         this.timer.start();
@@ -358,15 +358,6 @@ public boolean isGameRunning(){
     public void resetScore(){
         score=0;
     }
-
-
-    public int[] returnSize(){        //返回JPanel大小，供JFrame使用
-        int[] a = new int[2];
-        a[0] = this.row * this.BlockLength;
-        a[1] = this.col * this.BlockHeight;
-        return a;
-    }
-
 
 
     class TimerListener implements ActionListener {

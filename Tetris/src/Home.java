@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -34,7 +33,6 @@ public class Home {
         ImageIcon DifficultyButton=new ImageIcon("Tetris/src/buttons/DifficultyButton.png");
         ImageIcon BG=new ImageIcon("Tetris/src/bg/bg.png");
         ImageIcon BG1=new ImageIcon("Tetris/src/bg/bg1.png");
-        ImageIcon ButtonBG=new ImageIcon("Tetris/src/buttons/ButtonBG.png");
         ImageIcon PlayAgainButton=new ImageIcon("Tetris/src/buttons/PlayAgainButton.png");
         //bgm
         Music bgm=new Music("Tetris/src/bgm/bgm.wav");
@@ -187,7 +185,7 @@ public class Home {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //bgm.start(true);
-                GamePanel.startgame();
+                GamePanel.startGame();
                 GamePage.addKeyListener(GamePanel);
 
 
@@ -304,7 +302,7 @@ public class Home {
             public void actionPerformed(ActionEvent e) {
                 GameOverFrame.dispose();
                 GamePanel.resetGameRunning();
-                GamePanel.startgame();
+                GamePanel.startGame();
                 GamePanel.resetScore();
             }
         });
