@@ -6,37 +6,37 @@ import java.awt.event.*;
 public class Home {
     public static void main(String[] args) {
         //导入按钮图片素材
-        ImageIcon StartButton=new ImageIcon("tetris/Tetris/src/buttons/StartButton.png");
-        ImageIcon StartButtonPressed=new ImageIcon("tetris/Tetris/src/buttons/StartButtonPressed.png");
-        ImageIcon ExitButton=new ImageIcon("tetris/Tetris/src/buttons/ExitButton.png");
-        ImageIcon ExitButtonPressed=new ImageIcon("tetris/Tetris/src/buttons/ExitButtonPressed.png");
-        ImageIcon RankingListButton=new ImageIcon("tetris/Tetris/src/buttons/RankingListButton.png");
-        ImageIcon RankingListButtonPressed=new ImageIcon("tetris/Tetris/src/buttons/RankingListButtonPressed.png");
-        ImageIcon OptionButton=new ImageIcon("tetris/Tetris/src/buttons/OptionButton.png");
-        ImageIcon OptionButtonPressed=new ImageIcon("tetris/Tetris/src/buttons/OptionButtonPressed.png");
-        ImageIcon NewGameButton=new ImageIcon("tetris/Tetris/src/buttons/NewGameButton.png");
-        ImageIcon NewGameButtonPressed=new ImageIcon("tetris/Tetris/src/buttons/NewGameButtonPressed.png");
-        ImageIcon GameSaverButton=new ImageIcon("tetris/Tetris/src/buttons/GameSaverButton.png");
-        ImageIcon GameSaverButtonPressed=new ImageIcon("tetris/Tetris/src/buttons/GameSaverButtonPressed.png");
-        ImageIcon BackButton=new ImageIcon("tetris/Tetris/src/buttons/BackButton.png");
-        ImageIcon BackButtonPressed=new ImageIcon("tetris/Tetris/src/buttons/BackButtonPressed.png");
-        ImageIcon ApplyButton=new ImageIcon("tetris/Tetris/src/buttons/ApplyButton.png");
-        ImageIcon ApplyButtonPressed=new ImageIcon("tetris/Tetris/src/buttons/ApplyButtonPressed.png");
-        ImageIcon BackButtonBig=new ImageIcon("tetris/Tetris/src/buttons/BackButtonBig.png");
-        ImageIcon BackButtonBigPressed=new ImageIcon("tetris/Tetris/src/buttons/BackButtonBigPressed.png");
-        ImageIcon NoButton=new ImageIcon("tetris/Tetris/src/buttons/NoButton.png");
-        ImageIcon YesButton=new ImageIcon("tetris/Tetris/src/buttons/YesButton.png");
-        ImageIcon HomeButton=new ImageIcon("tetris/Tetris/src/buttons/HomeButton.png");
-        ImageIcon PauseButton=new ImageIcon("tetris/Tetris/src/buttons/PauseButton.png");
-        ImageIcon PauseButtonPressed=new ImageIcon("tetris/Tetris/src/buttons/PauseButtonPressed.png");
-        ImageIcon ContinueButton=new ImageIcon("tetris/Tetris/src/buttons/ContinueButton.png");
-        ImageIcon HowToPlayButton=new ImageIcon("tetris/Tetris/src/buttons/HowToPlayButton.png");
-        ImageIcon DifficultyButton=new ImageIcon("tetris/Tetris/src/buttons/DifficultyButton.png");
-        ImageIcon BG=new ImageIcon("tetris/Tetris/src/bg/bg.png");
-        ImageIcon BG1=new ImageIcon("tetris/Tetris/src/bg/bg1.png");
-        ImageIcon ButtonBG=new ImageIcon("tetris/Tetris/src/buttons/ButtonBG.png");
+        ImageIcon StartButton=new ImageIcon("Tetris/src/buttons/StartButton.png");
+        ImageIcon StartButtonPressed=new ImageIcon("Tetris/src/buttons/StartButtonPressed.png");
+        ImageIcon ExitButton=new ImageIcon("Tetris/src/buttons/ExitButton.png");
+        ImageIcon ExitButtonPressed=new ImageIcon("Tetris/src/buttons/ExitButtonPressed.png");
+        ImageIcon RankingListButton=new ImageIcon("Tetris/src/buttons/RankingListButton.png");
+        ImageIcon RankingListButtonPressed=new ImageIcon("Tetris/src/buttons/RankingListButtonPressed.png");
+        ImageIcon OptionButton=new ImageIcon("Tetris/src/buttons/OptionButton.png");
+        ImageIcon OptionButtonPressed=new ImageIcon("Tetris/src/buttons/OptionButtonPressed.png");
+        ImageIcon NewGameButton=new ImageIcon("Tetris/src/buttons/NewGameButton.png");
+        ImageIcon NewGameButtonPressed=new ImageIcon("Tetris/src/buttons/NewGameButtonPressed.png");
+        ImageIcon GameSaverButton=new ImageIcon("Tetris/src/buttons/GameSaverButton.png");
+        ImageIcon GameSaverButtonPressed=new ImageIcon("Tetris/src/buttons/GameSaverButtonPressed.png");
+        ImageIcon BackButton=new ImageIcon("Tetris/src/buttons/BackButton.png");
+        ImageIcon BackButtonPressed=new ImageIcon("Tetris/src/buttons/BackButtonPressed.png");
+        ImageIcon ApplyButton=new ImageIcon("Tetris/src/buttons/ApplyButton.png");
+        ImageIcon ApplyButtonPressed=new ImageIcon("Tetris/src/buttons/ApplyButtonPressed.png");
+        ImageIcon BackButtonBig=new ImageIcon("Tetris/src/buttons/BackButtonBig.png");
+        ImageIcon BackButtonBigPressed=new ImageIcon("Tetris/src/buttons/BackButtonBigPressed.png");
+        ImageIcon NoButton=new ImageIcon("Tetris/src/buttons/NoButton.png");
+        ImageIcon YesButton=new ImageIcon("Tetris/src/buttons/YesButton.png");
+        ImageIcon HomeButton=new ImageIcon("Tetris/src/buttons/HomeButton.png");
+        ImageIcon PauseButton=new ImageIcon("Tetris/src/buttons/PauseButton.png");
+        ImageIcon PauseButtonPressed=new ImageIcon("Tetris/src/buttons/PauseButtonPressed.png");
+        ImageIcon ContinueButton=new ImageIcon("Tetris/src/buttons/ContinueButton.png");
+        ImageIcon HowToPlayButton=new ImageIcon("Tetris/src/buttons/HowToPlayButton.png");
+        ImageIcon DifficultyButton=new ImageIcon("Tetris/src/buttons/DifficultyButton.png");
+        ImageIcon BG=new ImageIcon("Tetris/src/bg/bg.png");
+        ImageIcon BG1=new ImageIcon("Tetris/src/bg/bg1.png");
+        ImageIcon ButtonBG=new ImageIcon("Tetris/src/buttons/ButtonBG.png");
         //bgm
-        Music bgm=new Music("tetris/Tetris/src/bgm/bgm.wav");
+        Music bgm=new Music("Tetris/src/bgm/bgm.wav");
 
 
         //创建游戏主页面
@@ -75,14 +75,7 @@ public class Home {
         Difficulty.setIcon(DifficultyButton);
         Difficulty.setBounds(50,273,DifficultyButton.getIconWidth(),DifficultyButton.getIconHeight());
         final JComboBox<String> chooseDifficulty= new JComboBox<>(difficulties);
-        chooseDifficulty.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange()==ItemEvent.SELECTED){
-                    System.out.println("游戏难度设置为"+chooseDifficulty.getSelectedItem());
-                }
-            }
-        });
+
         homePage.add(chooseDifficulty);
         chooseDifficulty.setBounds(210,290,100,30);
         Color BGColor=new Color(254,229,163);
@@ -171,6 +164,24 @@ public class Home {
         JLabel GamePageBG=new JLabel();
         setBackGround.SetBackGround(GamePageBG,GamePage,BG1,GamePanel);
 
+
+        chooseDifficulty.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange()==ItemEvent.SELECTED){
+                    switch (chooseDifficulty.getSelectedIndex()){
+                        case 0:GamePanel.setDifficulty(1000);break;
+                        case 1:GamePanel.setDifficulty(500);break;
+                        case 2:GamePanel.setDifficulty(250);break;
+                        case 3:GamePanel.setDifficulty(125);break;
+                        default:break;
+                    }
+
+                    System.out.println("游戏难度设置为"+chooseDifficulty.getSelectedItem());
+                }
+            }
+        });
+
         //
         NewGame.addActionListener(new ActionListener() {
             @Override
@@ -225,6 +236,7 @@ public class Home {
         JButton BackToHomePageFromPausePage=new JButton();
         PausePanel.add(BackToHomePageFromPausePage);
         SetButton.SetButton(BackToHomePageFromPausePage,HomeButton,HomeButton);
+
         BackToHomePageFromPausePage.setBounds(30,150,HomeButton.getIconWidth(),HomeButton.getIconHeight());
 
 
