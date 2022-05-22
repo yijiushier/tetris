@@ -290,6 +290,7 @@ public class Home {
             public void actionPerformed(ActionEvent e) {
                 GameOverFrame.dispose();
                 GamePage.dispose();
+                GamePage .removeKeyListener(GamePanel);
                 homePage.setVisible(true);
                 GamePanel.resetGameRunning();
                 GamePanel.resetScore();
@@ -303,6 +304,7 @@ public class Home {
             public void actionPerformed(ActionEvent e) {
                 GameOverFrame.dispose();
                 GamePanel.resetGameRunning();
+                GamePage .removeKeyListener(GamePanel);
                 GamePanel.startGame();
                 GamePanel.resetScore();
             }
