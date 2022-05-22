@@ -28,6 +28,7 @@ public class gamePage extends JPanel implements KeyListener  {
     private int score=0;  //score储存得分
     private Timer timer;
     private int t=1000;
+    private boolean GameRunning=true;
     private final int [][]block_0= { //l型方块
             {1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0},
             {1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -109,18 +110,23 @@ public class gamePage extends JPanel implements KeyListener  {
          y=0;  //y表示方块y坐标，即4✖️4方块左上角y坐标
 
         if(!gameOver()){
-            newData();
-            repaint();
+            timer.stop();
         }
     }
 
-    private boolean gameOver() {   //判断何时游戏结束
+    //为主程序提供代表游戏进行的boolean值
+public boolean isGameRunning(){
+        return GameRunning;
+}
+
+    public boolean gameOver() {   //判断何时游戏结束
         int[] a = block[type][state];
         boolean t = true;
         for (int k = 0; k < a.length; k++) {
             if (a[k] > 0) {
                 if (data[k % 4 + x][k / 4 + y] > 0) {
-                    t = false;
+                    t= false;
+                    GameRunning=false;
                     break;
                 }
             }
@@ -342,15 +348,16 @@ public class gamePage extends JPanel implements KeyListener  {
     public void ContinueGame(){
         this.timer.start();
     }
-    public void home() {
 
+    //为主程序提供最新分数值
+    public String getScore(){
+        return String.valueOf(score);
     }
 
-
-
-
-
-
+    //将玩家分数清零
+    public void resetScore(){
+        score=0;
+    }
 
 
     public int[] returnSize(){        //返回JPanel大小，供JFrame使用
@@ -401,6 +408,10 @@ public class gamePage extends JPanel implements KeyListener  {
 
     }
 
+    //改变代表游戏运行的boolean值
+    public void resetGameRunning(){
+        GameRunning=true;
+    }
 
 }
 
