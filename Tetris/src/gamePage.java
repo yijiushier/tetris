@@ -4,6 +4,9 @@ import java.awt.Graphics;
 import java.awt.event.*;
 import javax.swing.JPanel;
 import java.lang.Override;
+import java.awt.Font;
+
+
 
 public class gamePage extends JPanel implements KeyListener  {
 
@@ -24,6 +27,7 @@ public class gamePage extends JPanel implements KeyListener  {
     int y;
     private int score=0;  //score储存得分
     private Timer timer;
+    private int t=1000;
     private final int [][]block_0= { //l型方块
             {1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0},
             {1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -76,7 +80,13 @@ public class gamePage extends JPanel implements KeyListener  {
             block_6
     };
 
-    public gamePage() {                  //constructor
+    public gamePage() {
+        this.timer=new Timer(this.t,new TimerListener());
+    }
+
+
+    public void setDifficulty(int t){
+        this.t=t;
 
     }
 
@@ -282,19 +292,58 @@ public class gamePage extends JPanel implements KeyListener  {
                 g.drawRect((k % 4 + x) * this.BlockHeight, (k / 4 + y) * this.BlockHeight, BlockLength, BlockHeight);
             }
         }
+        for(int c=0;c<block[nexttype][nextstate].length;c++){
+            if(block[nexttype][nextstate][c]>0){
+                switch (block[nexttype][nextstate][c]) {
+                    case 1:
+                        g.setColor(Color.CYAN);
+                        break;
+                    case 2:
+                        g.setColor(Color.YELLOW);
+                        break;
+                    case 3:
+                        g.setColor(Color.RED);
+                        break;
+                    case 4:
+                        g.setColor(Color.GREEN);
+                        break;
+                    case 5:
+                        g.setColor(Color.BLUE);
+                        break;
+                    case 6:
+                        g.setColor(Color.PINK);
+                        break;
+                    case 7:
+                        g.setColor(Color.orange);
+                        break;
+                    default:
+                        g.setColor(Color.GRAY);
+                        break;
+                }
+                g.fillRect((c % 4 + 12) * this.BlockHeight-10, (c / 4 + 12) * this.BlockHeight, BlockLength, BlockHeight);
+                g.setColor(Color.GRAY);
+                g.drawRect((c % 4 + 12) * this.BlockHeight-10, (c / 4 + 12) * this.BlockHeight, BlockLength,BlockHeight);
+            }
+        }
+        g.setFont(new Font("楷体", Font.BOLD, 30));
+        g.drawString("得分",283,4*BlockHeight);
+        g.drawString(String.valueOf(score),12*BlockLength,6*BlockHeight);
+        g.drawString("下一方块",260,10*BlockHeight);
     }
 
     public void startgame(){
         newData();
         NewBlock();
-        timer=new Timer(1000,new TimerListener() );
-        timer.start();
+        this.timer.start();
     }
     public void pause(){
-        timer.stop();
+        this.timer.stop();
     }
     public void ContinueGame(){
-        timer.start();
+        this.timer.start();
+    }
+    public void home() {
+
     }
 
 
