@@ -3,11 +3,14 @@ import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.event.*;
 import javax.swing.JPanel;
+import java.io.*;
 import java.lang.Override;
 import java.awt.Font;
+import java.nio.charset.StandardCharsets;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+
 
 
 
@@ -24,15 +27,16 @@ public class gamePage extends JPanel implements KeyListener  {
     private int [][]data =new int[row][col]; //data储存已落下方块信息
     private int type=-1;  //  type表示方块类型，范围从0到6，一开始设type=-1表示新游戏，即无方块落下
     private int state  ;// state表示方块旋转状态，范围从0到3
-    private int nexttype;  //nexttype表示下一方块类型
-    private int nextstate;  // nextstate表示方块下一状态
-    private int[] block_now;
-    private int[] block_next;
-    int x;        //x，y表示这个block的位置，在Newblock中，预设x=4，y=0，即表示方块已开始从画面最上方中间位置下落
+    private int nextType;  //nextType表示下一方块类型
+    private int nextState;  // nextState表示方块下一状态
+    int x;        //x，y表示这个block的位置，在NewBlock中，预设x=4，y=0，即表示方块已开始从画面最上方中间位置下落
     int y;
     private int score=0;  //score储存得分
     private Timer timer;
     private int t=1000;
+    private boolean GameRunning=true;
+    private String[] StoredData=new String[206];
+
     private final int [][]block_0= { //l型方块
             {1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0},
             {1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -89,42 +93,49 @@ public class gamePage extends JPanel implements KeyListener  {
 
     }
 
+
     public void setDifficulty(int t){
         this.t=t;
+
     }
 
 
 
     private void NewBlock(){   //产生新方块
+        //随机设定下一方块state
+        //随机设定下一方块类型
         if(type==-1) {  //当type=-1时表示当前没有方块下落，所以要初始化一个方块，并且预设下一方块的type和state
             type = (int) ((500 * Math.random()) % 7);  //随机产生方块类型
             state = (int) ((500 * Math.random()%4));  //随机产生方块state
-            nexttype = (int) ((500 * Math.random()%7));  //随机设定下一方块类型
-            nextstate = (int) ((500 * Math.random()%4));  //随机设定下一方块state
         }
         else {      //此时游戏已经开始
-            type = nexttype;  //将预设方块类型赋予当前方块
-            state = nextstate; //将预设方块state赋予当前方块
-            nexttype = (int) ((500* Math.random()%7)); //随机设定下一方块类型
-            nextstate = (int) ((500 * Math.random())%4);//随机设定下一方块state
+            type = nextType;  //将预设方块类型赋予当前方块
+            state = nextState; //将预设方块state赋予当前方块
         }
+        nextType = (int) ((500 * Math.random()%7));  //随机设定下一方块类型
+        nextState = (int) ((500 * Math.random()%4));  //随机设定下一方块state
 
-         x=4;  //x表示方块x坐标，即4✖️4方块左上角x坐标
+        x=4;  //x表示方块x坐标，即4✖️4方块左上角x坐标
          y=0;  //y表示方块y坐标，即4✖️4方块左上角y坐标
 
         if(!gameOver()){
-            newData();
-            repaint();
+            timer.cancel();
         }
     }
 
-    private boolean gameOver() {   //判断何时游戏结束
+    //为主程序提供代表游戏进行的boolean值
+public boolean isGameRunning(){
+        return GameRunning;
+}
+
+    public boolean gameOver() {   //判断何时游戏结束
         int[] a = block[type][state];
         boolean t = true;
         for (int k = 0; k < a.length; k++) {
             if (a[k] > 0) {
                 if (data[k % 4 + x][k / 4 + y] > 0) {
-                    t = false;
+                    t= false;
+                    GameRunning=false;
                     break;
                 }
             }
@@ -296,9 +307,9 @@ public class gamePage extends JPanel implements KeyListener  {
                 g.drawRect((k % 4 + x) * this.BlockHeight, (k / 4 + y) * this.BlockHeight, BlockLength, BlockHeight);
             }
         }
-        for(int c=0;c<block[nexttype][nextstate].length;c++){
-            if(block[nexttype][nextstate][c]>0){
-                switch (block[nexttype][nextstate][c]) {
+        for(int c=0;c<block[nextType][nextState].length;c++){
+            if(block[nextType][nextState][c]>0){
+                switch (block[nextType][nextState][c]) {
                     case 1:
                         g.setColor(Color.CYAN);
                         break;
@@ -335,12 +346,17 @@ public class gamePage extends JPanel implements KeyListener  {
         g.drawString("下一方块",260,10*BlockHeight);
     }
 
-    public void startgame(){
+    public void startGame(){
         newData();
         NewBlock();
         this.timer=new Timer();
         this.timer.schedule(new task(),0,t);
 
+    }
+    public void loadGame(){
+        NewBlock();
+        this.timer=new Timer();
+        this.timer.schedule(new task(),0,t);
     }
     public void pause(){
         this.timer.cancel();
@@ -353,21 +369,15 @@ public class gamePage extends JPanel implements KeyListener  {
         this.timer.cancel();
     }
 
-
-
-
-
-
-
-
-    public int[] returnSize(){        //返回JPanel大小，供JFrame使用
-        int[] a = new int[2];
-        a[0] = this.row * this.BlockLength;
-        a[1] = this.col * this.BlockHeight;
-        return a;
+    //为主程序提供最新分数值
+    public String getScore(){
+        return String.valueOf(score);
     }
 
-
+    //将玩家分数清零
+    public void resetScore(){
+        score=0;
+    }
 
 
 
@@ -408,5 +418,106 @@ public class gamePage extends JPanel implements KeyListener  {
 
     }
 
+    public void setStoredData(){
+        StoredData[0]=Integer.toString(x);
+        StoredData[1]=Integer.toString(y);
+        StoredData[2]=Integer.toString(type);
+        StoredData[3]=Integer.toString(state);
+        StoredData[4]=Integer.toString(nextType);
+        StoredData[5]=Integer.toString(nextState);
+            for (int j=0;j<data.length;j++){
+                for (int k=0;k<data[j].length;k++){
+                    StoredData[6+20*j+k]=Integer.toString(data[j][k]);
+                }
+            }
+    }
+
+    //改变代表游戏运行的boolean值
+    public void resetGameRunning(){
+        GameRunning=true;
+    }
+
+
+    //save
+
+     public void saveDataToFile(String fileName) {
+        BufferedWriter writer = null;
+        File file = new File("Tetris/src/savers\\"+ fileName + ".txt");
+        //如果文件不存在，则新建一个
+        if(!file.exists()){
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        //写入
+        try {
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file,false),StandardCharsets.UTF_8));
+            for (int i=0;i<StoredData.length;i++) {
+                writer.write(StoredData[i]);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                if(writer != null){
+                    writer.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("文件写入成功！");
+    }
+
+    public String getDataFromFile(String fileName) {
+
+        String Path="Tetris/src/savers\\" + fileName+ ".txt";
+        BufferedReader reader = null;
+        StringBuilder lastStr = new StringBuilder();
+        try {
+            FileInputStream fileInputStream = new FileInputStream(Path);
+            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, StandardCharsets.UTF_8);
+            reader = new BufferedReader(inputStreamReader);
+            String tempString;
+            while ((tempString = reader.readLine()) != null) {
+                lastStr.append(tempString);
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return lastStr.toString();
+    }
+
+    public void setData(String storedData){
+        this.x=Integer.parseInt(storedData.substring(0,1));
+        this.y=Integer.parseInt(storedData.substring(1,2));
+        this.type=Integer.parseInt(storedData.substring(2,3));
+        this.state=Integer.parseInt(storedData.substring(3,4));
+        this.nextType=Integer.parseInt(storedData.substring(4,5));
+        this.nextState=Integer.parseInt(storedData.substring(5,6));
+
+               for (int j=0;j<data.length;j++){
+                   for (int k=0;k<data[j].length;k++){
+                       data[j][k]=Integer.parseInt(storedData.substring(6+20*j+k,6+20*j+k+1));
+                   }
+       }
+System.out.print(x);
+        System.out.print(y);
+        System.out.print(type);
+        System.out.print(state);
+        System.out.print(nextType);
+        System.out.print(nextState);
+    }
 
 }
