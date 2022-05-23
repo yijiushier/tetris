@@ -13,7 +13,6 @@ import java.util.TimerTask;
 
 
 
-
 public class gamePage extends JPanel implements KeyListener  {
 
 
@@ -93,17 +92,13 @@ public class gamePage extends JPanel implements KeyListener  {
 
     }
 
-
     public void setDifficulty(int t){
         this.t=t;
-
     }
 
 
 
     private void NewBlock(){   //产生新方块
-        //随机设定下一方块state
-        //随机设定下一方块类型
         if(type==-1) {  //当type=-1时表示当前没有方块下落，所以要初始化一个方块，并且预设下一方块的type和state
             type = (int) ((500 * Math.random()) % 7);  //随机产生方块类型
             state = (int) ((500 * Math.random()%4));  //随机产生方块state
@@ -381,6 +376,20 @@ public boolean isGameRunning(){
 
 
 
+
+
+
+    public int[] returnSize(){        //返回JPanel大小，供JFrame使用
+        int[] a = new int[2];
+        a[0] = this.row * this.BlockLength;
+        a[1] = this.col * this.BlockHeight;
+        return a;
+    }
+
+
+
+
+
     class task extends TimerTask {
         @Override
         public void run(){
@@ -512,12 +521,6 @@ public boolean isGameRunning(){
                        data[j][k]=Integer.parseInt(storedData.substring(6+20*j+k,6+20*j+k+1));
                    }
        }
-System.out.print(x);
-        System.out.print(y);
-        System.out.print(type);
-        System.out.print(state);
-        System.out.print(nextType);
-        System.out.print(nextState);
     }
 
 }
