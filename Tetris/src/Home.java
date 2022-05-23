@@ -62,7 +62,7 @@ public class Home {
         JButton Exit=new JButton();
         homePanel.add(Exit);
         SetButton.SetButton(Exit,ExitButton,ExitButtonPressed);
-        Exit.setBounds(100,500,StartButton.getIconWidth(),StartButton.getIconHeight());
+        Exit.setBounds(100,400,StartButton.getIconWidth(),StartButton.getIconHeight());
 
         //退出游戏
         Exit.addActionListener(e -> System.exit(0));
@@ -72,11 +72,11 @@ public class Home {
         homePanel.add(Difficulty);
         String[] difficulties=new String[]{"Level 1","Level 2","Level 3","Level 4"};
         Difficulty.setIcon(DifficultyButton);
-        Difficulty.setBounds(50,273,DifficultyButton.getIconWidth(),DifficultyButton.getIconHeight());
+        Difficulty.setBounds(50,303,DifficultyButton.getIconWidth(),DifficultyButton.getIconHeight());
         final JComboBox<String> chooseDifficulty= new JComboBox<>(difficulties);
 
         homePage.add(chooseDifficulty);
-        chooseDifficulty.setBounds(210,290,100,30);
+        chooseDifficulty.setBounds(210,320,100,30);
         Color BGColor=new Color(254,229,163);
         chooseDifficulty.setBackground(BGColor);
         chooseDifficulty.setFont(new Font("方正舒体",Font.BOLD,20));
@@ -84,7 +84,7 @@ public class Home {
 
         //点击Ranking List按钮跳转到排行榜界面
         JButton RankingList=new JButton();
-        homePage.add(RankingList);
+        //homePage.add(RankingList);
         SetButton.SetButton(RankingList,RankingListButton,RankingListButtonPressed);
         RankingList.setBounds(100,340,StartButton.getIconWidth(),StartButton.getIconHeight());
 
@@ -176,7 +176,6 @@ public class Home {
                         default:break;
                     }
 
-                    System.out.println("游戏难度设置为"+chooseDifficulty.getSelectedItem());
                 }
             }
         });
@@ -185,7 +184,7 @@ public class Home {
         NewGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //bgm.start(true);
+                bgm.start(true);
                 GamePanel.startGame();
                 GamePage.addKeyListener(GamePanel);
 
@@ -193,8 +192,6 @@ public class Home {
 
             }
         });
-
-        //bgm.setVolume(7);
 
         //Pause暂停界面设置
         JFrame PausePage=new JFrame("Pause");
@@ -294,7 +291,6 @@ public class Home {
                 homePage.setVisible(true);
                 GamePanel.resetGameRunning();
                 GamePanel.resetScore();
-
             }
         });
 
@@ -306,7 +302,9 @@ public class Home {
                 GamePanel.resetGameRunning();
                 GamePage .removeKeyListener(GamePanel);
                 GamePanel.startGame();
+                GamePage.addKeyListener(GamePanel);
                 GamePanel.resetScore();
+                bgm.start(true);
             }
         });
 
@@ -449,7 +447,7 @@ public class Home {
 
         //主页选项按钮和选项页面
         JButton Option=new JButton();
-        homePanel.add(Option);
+        //homePanel.add(Option);
         SetButton.SetButton(Option,OptionButton,OptionButtonPressed);
         Option.setBounds(100,420,OptionButton.getIconWidth(),OptionButton.getIconHeight());
 
@@ -485,6 +483,7 @@ public class Home {
                 GameRunningShowingScore.setText("Score:"+GamePanel.getScore());
                 if (!GamePanel.isGameRunning()){
                     GameOverFrame.setVisible(true);
+                    bgm.stop();
                     GameOverShowingScore.setText("Score:"+GamePanel.getScore());
                 }
             }
@@ -499,10 +498,10 @@ public class Home {
                 GamePanel.setData(loadData);
                 GamePage.setVisible(true);
                 ChooseGamePage.dispose();
-
                 GamePanel.loadGame();
                 GamePage.addKeyListener(GamePanel);
-
+                bgm.start(true);
+                checkGameOver.start();
                 }
         });
 
