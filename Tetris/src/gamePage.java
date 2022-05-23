@@ -13,7 +13,7 @@ import java.util.TimerTask;
 
 
 
-public class gamePage extends JPanel implements KeyListener  {
+public class gamePage extends JPanel implements KeyListener  {  //游戏逻辑代码
 
 
     private final int row = 10;     //设置行数
@@ -31,8 +31,8 @@ public class gamePage extends JPanel implements KeyListener  {
     int x;        //x，y表示这个block的位置，在NewBlock中，预设x=4，y=0，即表示方块已开始从画面最上方中间位置下落
     int y;
     private int score=0;  //score储存得分
-    private Timer timer;
-    private int t=1000;
+    private Timer timer;  //设置计时器
+    private int t=1000;   //若没有选择level，方块下落的时间间隔默认为1000ms，即一秒
     private boolean GameRunning=true;
     private String[] StoredData=new String[206];
 
@@ -88,11 +88,11 @@ public class gamePage extends JPanel implements KeyListener  {
             block_6
     };
 
-    public gamePage() {
+    public gamePage() {//constructor
 
     }
 
-    public void setDifficulty(int t){
+    public void setDifficulty(int t){ //根据不同level选择时间间隔t，这个方法在home.java 167-181行代码中使用
         this.t=t;
     }
 
@@ -111,19 +111,19 @@ public class gamePage extends JPanel implements KeyListener  {
         nextState = (int) ((500 * Math.random()%4));  //随机设定下一方块state
 
         x=4;  //x表示方块x坐标，即4✖️4方块左上角x坐标
-         y=0;  //y表示方块y坐标，即4✖️4方块左上角y坐标
+        y=0;  //y表示方块y坐标，即4✖️4方块左上角y坐标
 
-        if(!gameOver()){
+        if(!gameOver()){  //游戏结束判断，timer终止
             timer.cancel();
         }
     }
 
     //为主程序提供代表游戏进行的boolean值
-public boolean isGameRunning(){
+    public boolean isGameRunning(){
         return GameRunning;
-}
+    }
 
-    public boolean gameOver() {   //判断何时游戏结束
+    public boolean gameOver() {   //判断何时游戏结束，当刚刚生成的方块与data储存的方块重合时，游戏结束
         int[] a = block[type][state];
         boolean t = true;
         for (int k = 0; k < a.length; k++) {
@@ -139,8 +139,8 @@ public boolean isGameRunning(){
     }
 
 
-    private void add() {    //add表示将block方块坐标信息加入data中
-        int[] a = block[type][state];//将block内信息导入a
+    private void store() {    //add表示将block方块坐标信息储存到data中
+        int[] a = block[type][state];
         for(int k=0;k<a.length;k++){
             if(a[k]>0) data[k % 4 + x][k / 4 + y] = a[k];
         }
@@ -158,7 +158,7 @@ public boolean isGameRunning(){
                 }
             }
         }
-        if(t)
+        if(t)  //若能左移，则左移
             x=x-1;
     }
 
@@ -173,7 +173,7 @@ public boolean isGameRunning(){
                 }
             }
         }
-        if (t)
+        if (t)    //若能右移，则右移
             x = x + 1;
     }
 
@@ -188,15 +188,15 @@ public boolean isGameRunning(){
                 }
             }
         }
-        if (t) {
-             y++;
+        if (t) {  //若能下降，则下降
+            y++;
         }
     }
 
     private void Rotate() {  //旋转操作，判断能否旋转
 
         boolean t = true;
-        if (state == 3) {
+        if (state == 3) {     //先将state+1
             state=0;
         }
         else {
@@ -211,7 +211,7 @@ public boolean isGameRunning(){
                 }
             }
         }
-        if (!t) {
+        if (!t) {    //若能旋转，则state不变，否则退回原state
             if(state==0)
                 state=3;
             else {
@@ -220,11 +220,11 @@ public boolean isGameRunning(){
         }
     }
 
-    private void deleteLine(){   //消行操作，判断能否消行
-        for(int i=this.col-1;i>=0;i--){
+    private void ClearLine(){   //消行操作，判断能否消行
+        for(int i=this.col-1;i>=0;i--){  //从最底部一行从下往上看能否消行
             boolean t=true;
             for(int j=0;j<this.row;j++){
-                if(data[j][i]==0){
+                if(data[j][i]==0){  //若一行中有值为0，则break
                     t=false;
                     break;
                 }
@@ -239,7 +239,7 @@ public boolean isGameRunning(){
         }
     }
 
-    private void newData(){  //将data里数据清空，方便开始游戏
+    private void ClearData(){  //将data里数据清空，方便开始游戏
         for (int i=0;i<this.row;i++){
             for(int j=0;j<this.col;j++)
                 data[i][j]=0;
@@ -247,29 +247,29 @@ public boolean isGameRunning(){
     }
 
 
-    public void paint(Graphics g){
+    public void paint(Graphics g){  //画图操作
         super.paint((g));//清屏；
         int[]a=block[type][state];
-        for(int i=0;i<this.row;i++){
+        for(int i=0;i<this.row;i++){  //先画data里的方块
             for(int j=0;j<this.col;j++){
 
-                    switch(data[i][j]){
-                        case 1:g.setColor(Color.CYAN);break;
-                        case 2:g.setColor(Color.YELLOW);break;
-                        case 3:g.setColor(Color.RED);break;
-                        case 4:g.setColor(Color.GREEN);break;
-                        case 5:g.setColor(Color.BLUE);break;
-                        case 6:g.setColor(Color.PINK);break;
-                        case 7:g.setColor(Color.orange);break;
-                        default:g.setColor(new Color(254,229,163));break;
-                    }
-                    g.fillRect(i*this.BlockHeight,j*this.BlockHeight,BlockLength,BlockHeight);
-                    g.setColor(Color.GRAY);
-                    g.drawRect(i*this.BlockHeight,j*this.BlockHeight,BlockLength,BlockHeight);
+                switch(data[i][j]){
+                    case 1:g.setColor(Color.CYAN);break;
+                    case 2:g.setColor(Color.YELLOW);break;
+                    case 3:g.setColor(Color.RED);break;
+                    case 4:g.setColor(Color.GREEN);break;
+                    case 5:g.setColor(Color.BLUE);break;
+                    case 6:g.setColor(Color.PINK);break;
+                    case 7:g.setColor(Color.orange);break;
+                    default:g.setColor(new Color(254,229,163));break;
+                }
+                g.fillRect(i*this.BlockHeight,j*this.BlockHeight,BlockLength,BlockHeight);
+                g.setColor(Color.GRAY);
+                g.drawRect(i*this.BlockHeight,j*this.BlockHeight,BlockLength,BlockHeight);
 
             }
         }
-        for(int k=0;k<a.length;k++) {
+        for(int k=0;k<a.length;k++) {  //再画block中的方块
             if (a[k] > 0) {
                 switch (a[k]) {
                     case 1:
@@ -302,7 +302,7 @@ public boolean isGameRunning(){
                 g.drawRect((k % 4 + x) * this.BlockHeight, (k / 4 + y) * this.BlockHeight, BlockLength, BlockHeight);
             }
         }
-        for(int c=0;c<block[nextType][nextState].length;c++){
+        for(int c=0;c<block[nextType][nextState].length;c++){  //显示下一方块
             if(block[nextType][nextState][c]>0){
                 switch (block[nextType][nextState][c]) {
                     case 1:
@@ -341,8 +341,8 @@ public boolean isGameRunning(){
         g.drawString("下一方块",260,10*BlockHeight);
     }
 
-    public void startGame(){
-        newData();
+    public void startGame(){   //开始游戏操作
+        ClearData();
         NewBlock();
         this.timer=new Timer();
         this.timer.schedule(new task(),0,t);
@@ -353,14 +353,14 @@ public boolean isGameRunning(){
         this.timer=new Timer();
         this.timer.schedule(new task(),0,t);
     }
-    public void pause(){
+    public void pause(){   //暂停游戏操作
         this.timer.cancel();
     }
-    public void ContinueGame(){
+    public void ContinueGame(){  //继续游戏操作
         this.timer=new Timer();
         this.timer.schedule(new task(),0,t);
     }
-    public void home() {
+    public void home() {  //返回主页，timer取消
         this.timer.cancel();
     }
 
@@ -390,14 +390,14 @@ public boolean isGameRunning(){
 
 
 
-    class task extends TimerTask {
+    class task extends TimerTask {  //每一秒执行的操作
         @Override
         public void run(){
             int y1=y;
             Down();
             if(y1==y){
-                add();
-                deleteLine();
+                store();
+                ClearLine();
                 NewBlock();
             }
             repaint();
@@ -434,11 +434,11 @@ public boolean isGameRunning(){
         StoredData[3]=Integer.toString(state);
         StoredData[4]=Integer.toString(nextType);
         StoredData[5]=Integer.toString(nextState);
-            for (int j=0;j<data.length;j++){
-                for (int k=0;k<data[j].length;k++){
-                    StoredData[6+20*j+k]=Integer.toString(data[j][k]);
-                }
+        for (int j=0;j<data.length;j++){
+            for (int k=0;k<data[j].length;k++){
+                StoredData[6+20*j+k]=Integer.toString(data[j][k]);
             }
+        }
     }
 
     //改变代表游戏运行的boolean值
@@ -449,7 +449,7 @@ public boolean isGameRunning(){
 
     //save
 
-     public void saveDataToFile(String fileName) {
+    public void saveDataToFile(String fileName) {
         BufferedWriter writer = null;
         File file = new File("Tetris/src/savers\\"+ fileName + ".txt");
         //如果文件不存在，则新建一个
@@ -516,11 +516,11 @@ public boolean isGameRunning(){
         this.nextType=Integer.parseInt(storedData.substring(4,5));
         this.nextState=Integer.parseInt(storedData.substring(5,6));
 
-               for (int j=0;j<data.length;j++){
-                   for (int k=0;k<data[j].length;k++){
-                       data[j][k]=Integer.parseInt(storedData.substring(6+20*j+k,6+20*j+k+1));
-                   }
-       }
+        for (int j=0;j<data.length;j++){
+            for (int k=0;k<data[j].length;k++){
+                data[j][k]=Integer.parseInt(storedData.substring(6+20*j+k,6+20*j+k+1));
+            }
+        }
     }
 
 }
